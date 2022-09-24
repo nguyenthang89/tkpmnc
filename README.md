@@ -1,5 +1,5 @@
 # tkpmnc
-#   RUN SERVER
+RUN SERVER
 
-# yarn install
-# yarn start
+- yarn install
+- yarn start
