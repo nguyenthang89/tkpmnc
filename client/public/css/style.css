@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,500;0,700;0,900;1,300;1,700;1,900&display=swap');
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root{
+    --primary-color: rgb(0, 29, 110);
+    --secondary-color: rgb(254, 226, 197);
+    --third-color: rgb(127, 181, 255);
+    --bg-color: rgb(196, 221, 255);
+    --black-color: rgb(0, 0, 0);
+    --white-color: rgb(255, 255, 255);
+}
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p{
+    margin: 0;
+    padding: 0;
+}
+#main{
+    background-color: var(--bg-color);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin{
+    background-color: var(--primary-color);
+    min-width: 360px;
+    min-height: 420px;
+    padding: 32px;
+    box-shadow: 0 15px 25px rgba(0, 29, 110, 0.6);
+    border-radius: 10px;
+}
+.signin h2{
+    color: var(--white-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+.signin .signin__form__box{
+    position: relative;
+}
+.signin .signin__form__box>input{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid var(--white-color);
+    outline: none;
+    background: transparent;
+}
+.signin .signin__form__box>label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: var(--white-color);
+    pointer-events: none;
+    transition: 0.5s;
+}
+.signin .signin__form__box>input:focus ~ label,
+.signin .signin__form__box>input:valid ~ label{
+    top: -20px;
+    left: 0;
+    color: var(--secondary-color);
+    font-size: 12px;
+}
+.signin .signin__form>button{
+    padding: 10px 20px;
+    color: var(--secondary-color);
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    margin-top: 40px;
+    letter-spacing: 4px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.signin .signin__form>button:hover{
+    background-color: var(--third-color);
+    color: var(--white-color);
+    border-radius: 5px;
+    box-shadow: 0 0 5px var(--third-color), 0 0 25px var(--third-color), 0 0 50px var(--third-color), 0 0 100px var(--third-color);
+}
