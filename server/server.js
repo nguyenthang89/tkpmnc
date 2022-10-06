@@ -122,7 +122,6 @@ wsServer.on('request', function(request) {
 /* 
   END CHAT
 */
-
 /*
   FIREBASE PUSH NOTIFICATION
 */
