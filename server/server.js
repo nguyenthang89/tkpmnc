@@ -9,8 +9,11 @@ let corsOptions = {
   origin: ["http://localhost:8081", "http://localhost:3000", "http://localhost:3001"]
 }
 
-process.title = 'node-chat';
+/*
+  START CHAT
+*/
 
+process.title = 'node-chat';
 let webSocketsServerPort = 1337;
 
 let webSocketServer = require('websocket').server;
@@ -72,7 +75,7 @@ wsServer.on('request', function(request) {
   // user sent some message
   connection.on('message', function(message) {
     console.log(message, "sdadassds");
-    if (message.type === 'utf8') { // accept only text
+    if (message.type === 'utf8') { // accept only text,
     // first message sent by user is their name
      if (userName === false) {
         // remember user name
@@ -116,10 +119,19 @@ wsServer.on('request', function(request) {
     }
   });
 });
+/* 
+  END CHAT
+*/
+
+/*
+  FIREBASE PUSH NOTIFICATION
+*/
+const notification
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.get("/", (req, res)=>{
   res.json({message: "It's OK."});
 })
