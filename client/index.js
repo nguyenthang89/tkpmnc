@@ -1,43 +1,73 @@
 const express = require("express");
 const ejs = require("ejs");
-const http = require("http");
+const https = require("https");
+const axios = require('axios')
+
+
 const bodyParser = require("body-parser");
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(express.json())
 app.get("/", function(req, res){
     res.render("index");
+});
+
+const http = require('http');
+
+app.post("/", function(request, response){
+    
+    const data = JSON.stringify({ //<--- data to send as body
+        username: "https://www.nothing.com",
+        password: "hello"
+    });
+    const req = http.request({
+        hostname: '127.0.0.1',
+        port: 8080,
+        path: '/api/auth/signin',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }, res => {
+        console.log(`statusCode: ${res.statusCode}`);
+      
+        res.on('data', d => {
+          process.stdout.write(d);
+        })
+      })
+      
+      req.on('error', error => {
+        console.error(error);
+      })
+      req.write(data); //<--- this line
+      req.end();
+    
 })
-app.post("/", function(req, res){
-    let username = req.body.username;
-    let password = req.body.password;
-    const data = {
-        username: username,
-        password: password
-    };
-    // console.log(data);
-    // const jsonData = JSON.stringify(data);
-    // const url = "http://localhost:8080/api/auth/signin";
-    // const options = {
-    //     method: "POST",
-    // }
-    // const request = http.request(url, options, function(response){
-    //     if(response.statusCode === 200){
-    //         res.render("dashboard");
-    //         response.on("data", function(data){
-    //             console.log(JSON.parse(data));
-    //         })
-    //     }
-    //     else{
-    //         res.redirect("/");
-    //     }
-    // })
-    // request.write(jsonData);
-    // request.end();
-    res.render("dashboard");
-})
+
+// app.post("/", function(req, res){
+//     var username = '';
+//     var password = ''
+
+//     const session_url = 'http://localhost:8080/api/auth/signin';
+
+//     var config = {
+//       method: 'post',
+//       url: session_url,
+//       //headers: { 'Authorization': 'Basic '+ encodedToken }
+//     };
+
+//     axios(config)
+//     .then(function (response) {
+//       console.log(JSON.stringify(response.data));
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+
+    
+// })
 
 app.post("/dashboard", function(req,res){
     res.render("dashboard");
