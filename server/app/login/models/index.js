@@ -20,8 +20,10 @@ const sequelize = new Sequelize(
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.user = require("../models/user.model")(sequelize, Sequelize);
-db.role =  require("../models/role.model")(sequelize, Sequelize);
+db.user = require("./user.model")(sequelize, Sequelize);
+db.role =  require("./role.model")(sequelize, Sequelize);
+//db.drivers = require("./driver.model")(sequelize, Sequelize);
+
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
@@ -34,5 +36,5 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId"
 });
 
-db.ROLES = ["user", "admin", "moderator"];
+// db.ROLES = ["user", "admin", "driver"];
 module.exports = db;

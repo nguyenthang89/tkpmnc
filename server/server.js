@@ -28,7 +28,8 @@ db.sequelize.sync()
     console.log("Failed to sync db: " + err.message);
 });
 
-require("./app/routes/tutorial.routes")(app);
+//require("./app/routes/tutorial.routes")(app);
+require("./app/driver/routes/driver.routes")(app);
 require("./app/login/routes/auth.routes")(app);
 require("./app/login/routes/user.routes")(app);
 

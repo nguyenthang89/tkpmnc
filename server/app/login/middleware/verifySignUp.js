@@ -1,6 +1,7 @@
-const db=require("../models");
-const ROLES = db.ROLES;
+const db = require("../models");
+
 const User = db.user;
+const Role = db.role;
 
 checkDuplicateUsernameOrEmail = (req, res, next) => {
   User.findOne({
@@ -13,7 +14,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
         message: "User name is already in use!"
       });
       return;
-    }    
+    };    
 
     User.findOne({
       where: {
@@ -32,17 +33,19 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 };
 
 checkRolesExisted = (req, res, next) => {
-  if(req.body.roles){
-    for(let i = 0; i< req.body.roles.length; i++){
-      if(!ROLES.includes(req.body.roles[i])){
-        res.status(400).send({
-          message: "Role does not exits =" + req.body.roles[i]
-        });
-        return;
-      }
+  Role.findOne({
+    where: {
+      name: req.body.roles
     }
-  }
-  next();
+  }).then(role=> {
+    if(!role){
+      res.status(400).send({
+        message: "Role does not exits =" + req.body.roles[i]
+      });
+      return;
+    };    
+    next();
+  });
 };
 
 const verifySignUp={

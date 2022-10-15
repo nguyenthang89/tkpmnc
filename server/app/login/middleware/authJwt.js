@@ -35,7 +35,7 @@ isAdmin = (req, res ,next) => {
       }
 
       res.status(403).send({
-        message: "Require Admin Role!"
+        message: "Require admin role!"
       });
 
       return;
@@ -43,50 +43,67 @@ isAdmin = (req, res ,next) => {
   });
 };
 
-isModerator = (req, res, next) => {
+isDriver = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++){
-        if(roles[i].name === "moderator"){
+        if(roles[i].name === "driver"){
           next();
           return;
         }
       }
       res.status(403).send({
-        message: "Require Moderator Role!"
+        message: "Require driver role!"
       });
     });
   });
 };
 
-isModeratorOrAdmin = (req, res, next) => {
+isUser = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++){
-        if(roles[i].name === "moderator"){
-          next();
-          return;
-        }
-
-        if(roles[i].name === "admin"){
+        if(roles[i].name === "user"){
           next();
           return;
         }
       }
-
       res.status(403).send({
-        message: "Require Moderator or Admin Role!"
+        message: "Require user role!"
       });
     });
   });
-
 };
+
+// isModeratorOrAdmin = (req, res, next) => {
+//   User.findByPk(req.userId).then(user => {
+//     user.getRoles().then(roles => {
+//       for (let i = 0; i < roles.length; i++){
+//         if(roles[i].name === "moderator"){
+//           next();
+//           return;
+//         }
+
+//         if(roles[i].name === "admin"){
+//           next();
+//           return;
+//         }
+//       }
+
+//       res.status(403).send({
+//         message: "Require Moderator or Admin Role!"
+//       });
+//     });
+//   });
+
+// };
 
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
-  isModerator: isModerator,
-  isModeratorOrAdmin: isModeratorOrAdmin
+  isDriver: isDriver,
+  isUser: isUser,
+  //isModeratorOrAdmin: isModeratorOrAdmin
 }
 
 module.exports = authJwt;

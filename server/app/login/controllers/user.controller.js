@@ -10,6 +10,6 @@ exports.adminBoard = (req, res) => {
   res.status(200).send("ADMIN Content.");
 };
 
-exports.moderatorBoard = (req, res) => {
-  res.status(200).send("MODERATOR Content.");
+exports.driverBoard = (req, res) => {
+  res.status(200).send("DRIVER Content.");
 };
