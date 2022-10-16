@@ -1,6 +1,6 @@
 module.exports = app => {
   // const tutorials = require("../controllers/tutorial.controller");
-  const drivers = require("../../login/controllers/driver.controller");
+  const drivers = require("../controllers/driver.controller");
 
   var router = require("express").Router();
   

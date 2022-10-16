@@ -1,6 +1,6 @@
-const db = require("../../driver/models");
+const db = require("./../models/driver.model");
 const Driver = db.drivers;
-const Op = db.Sequelize.Op;
+// const Op = db.Sequelize.Op;
 
 // Find a single Driver with an id
 exports.findOne = (req, res) => {

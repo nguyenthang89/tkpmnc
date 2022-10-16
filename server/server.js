@@ -2,7 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const db = require("./app/login/models");
+const db = require("./app/models");
 const app = express();
 
 let corsOptions = {
@@ -29,9 +29,9 @@ db.sequelize.sync()
 });
 
 //require("./app/routes/tutorial.routes")(app);
-require("./app/driver/routes/driver.routes")(app);
-require("./app/login/routes/auth.routes")(app);
-require("./app/login/routes/user.routes")(app);
+require("./app/routes/driver.routes")(app);
+require("./app/routes/auth.routes")(app);
+require("./app/routes/user.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
