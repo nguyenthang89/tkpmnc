@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 //const { role } = require("./models");
-const {role} = require("../models");
-const db = require("../models");
-const User = db.user;
+const {role} = require("../models/roles");
+const {User} = require("../models/users");
+// const User = db.user;
 
-verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   if(!token){
     return res.status(403).send({
@@ -14,18 +14,18 @@ verifyToken = (req, res, next) => {
   }
   
   jwt.verify(token, config.secret, (err, decoded)=> {
+    console.log(token, 'toklen');
     if(err){
       return res.status(401).send({
-        message: "Unauthorized!"
+        message: "Unauthorized1231231!"
       });
     }
-
     req.userId = decoded.id;
     next();
   });
 };
 
-isAdmin = (req, res ,next) => {
+const isAdmin = (req, res ,next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for(let i = 0; i < roles.length; i++){
@@ -44,7 +44,7 @@ isAdmin = (req, res ,next) => {
   });
 };
 
-isDriver = (req, res, next) => {
+const isDriver = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++){
@@ -60,7 +60,7 @@ isDriver = (req, res, next) => {
   });
 };
 
-isUser = (req, res, next) => {
+const isUser = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++){

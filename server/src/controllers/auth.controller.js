@@ -1,14 +1,17 @@
-const db = require("../models");
+//const db = require("../models");
 const config = require("../config/auth.config");
-const User =  db.user;
-const Role = db.role;
-const Op = db.Sequelize.Op;
+import e from 'express';
+//const User =  require('../models/users');
+import Role from '../models/roles';
+import User from '../models/users';
+//const Op = db.Sequelize.Op;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const { user } = require("../models");
+let jwt = require("jsonwebtoken");
+let bcrypt = require("bcryptjs");
 
-exports.signup = (req, res) => {
+export function signup (req, res){
   //Save
   User.create({
     username: req.body.username,
@@ -16,11 +19,13 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8)
   }).then(user=> {
     if(req.body.roles){
+      console.log(req.body.roles, "req.body.roles");
       Role.findAll({
         where: {
           name: {
             [Op.or]: req.body.roles
-          }
+          },
+          //logging: console.log
         }
       }).then(roles => {
         user.setRoles(roles).then(()=> {
@@ -42,54 +47,51 @@ exports.signup = (req, res) => {
   });
 }
 
-exports.signin = (req, res) => {
-  User.findOne({
-    where: {
-      username: req.body.username
-    }
-  })
-  .then(user => {
-    if(!user) {
+export async function signin(req, res, next){   
+
+  try{
+    let user = await User.findOne({where:{
+        username: req.body.username
+    }});
+    if(!user){           
       return res.status(404).send({message: "User Not Found."});
     }
+    let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
     if(!passwordIsValid) {
       return res.status(401).send({
         token: null,
         message: "Invalid password."
       });
     }
-    var token = jwt.sign({id: user.id}, config.secret, {
+    let token = jwt.sign({id: user.id}, config.secret, {
       expiresIn: 86400
     });
     
-    var authorities = [];    
-    
-    // Code thieu dau });
+    let authorities = [];    
     user.getRoles().then(roles => {
       for(let i = 0; i<roles.length; i++){
         authorities.push("ROLE_" + roles[i].name.toUpperCase());
       }
-      console.log(authorities, "ROLESS");
       res.status(200).send({
         id: user.id,
         user: user.username,
         email: user.email,
         roles: authorities,
         token: token
-      });
-      
-      
-    
+      });   
+          
     })
-    .catch(err => {
-      res.status(500).send({message: err.message });
-    });
 
-  })
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({
+        success: false,
+        message:"Something went wrong!"
+    })
+}
 
-  
   
 };
 

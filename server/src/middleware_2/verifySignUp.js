@@ -1,9 +1,9 @@
-const db = require("../models");
+// const db = require("../models");
 
-const User = db.user;
-const Role = db.role;
+const User = require('../models/users');
+const Role = require('../models/roles');
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
+const checkDuplicateUsernameOrEmail = (req, res, next) => {
   User.findOne({
     where: {
       username: req.body.username
@@ -32,7 +32,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
   });
 };
 
-checkRolesExisted = (req, res, next) => {
+const checkRolesExisted = (req, res, next) => {
   Role.findOne({
     where: {
       name: req.body.roles
@@ -48,7 +48,7 @@ checkRolesExisted = (req, res, next) => {
   });
 };
 
-const verifySignUp={
+const verifySignUp = {
   checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
   checkRolesExisted: checkRolesExisted
 };
