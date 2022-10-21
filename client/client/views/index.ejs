@@ -11,11 +11,11 @@
     <h2><img src="/images/logo.svg" /> <br />TAXIBAY</h2>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="/signup" method="post">
+		<form action="/signup" method="post" enctype="multipart/form-data">
 			<h1>Tạo tài khoản</h1>
             <div class="radio-container">
                 <div class="radio-item">
-                    <input type="radio" value="admin" id="employee" name="selector">
+                    <input type="radio" value="admin" id="employee" name="selector" checked>
                     <label for="employee">Nhân viên</label>
                 </div>
                 <div class="radio-item">
@@ -36,6 +36,7 @@
                 <input type="text" name="driverLastName" placeholder="Họ" />
                 <input type="text" name="driverFirstName" placeholder="Tên" />
                 <input type="text" name="driverAddress" placeholder="Địa chỉ" />
+                <input type="text" name="driverPhone" placeholder="Điện thoại" />
                 <input type="date" name="driverBirthDate" placeholder="Ngày sinh" />
                 <input type="file" name="driverAvatar" placeholder="Ảnh đại diện" />
             </div>
