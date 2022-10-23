@@ -24,7 +24,7 @@ export  async function checkDuplicateUsernameOrEmailOrExistRole (req, res, next)
 
     if(email){
       res.status(400).send({
-        message: "User name is already in use!"
+        message: "Email is already in use!"
       });
       return;
     }

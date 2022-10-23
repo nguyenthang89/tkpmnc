@@ -135,4 +135,8 @@ INSERT INTO `mytrip`.`drivers` (`driverID`, `lastName`, `firstName`, `lat`, `Lon
 INSERT INTO `mytrip`.`drivers` (`lastName`, `firstName`, `lat`, `Long`) VALUES ('Dung', 'Vu Thi', '10.802029', '106.649307');
 
 UPDATE `mytrip`.`drivers` SET `lat` = '11.986355', `Long` = '106.805089' WHERE (`driverID` = '2');
-INSERT INTO `mytrip`.`drivers` (`driverID`, `lastName`, `firstName`, `lat`, `Long`) VALUES ('3', 'Meo', 'Con', '11.966562', '106.796186');
+INSERT INTO `mytrip`.`drivers` (`driverID`, `lastName`, `firstName`, `lat`, `Long`) VALUES ('4', 'Meo', 'Con', '11.966562', '106.796186');
+
+ALTER TABLE `mytrip`.`drivers` 
+CHANGE COLUMN `lastName` `lastName` VARCHAR(20) NULL ,
+CHANGE COLUMN `firstName` `firstName` VARCHAR(20) NULL ;

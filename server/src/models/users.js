@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database'
+import Driver from './drivers';
 
 const User =  sequelize.define('users', {
     id:{
@@ -21,5 +22,6 @@ const User =  sequelize.define('users', {
     timestamps: true
 });
  
+
 
 export default User;

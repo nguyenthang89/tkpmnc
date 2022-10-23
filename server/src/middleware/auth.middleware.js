@@ -24,9 +24,9 @@ export const verifyToken = (req, res, next) => {
   });
 };
 
-passport.use(jwtStrategy);
+// passport.use(jwtStrategy);
 
-export const authJwt = passport.authenticate('jwt', {
-  session: false,
-});
+// export const authJwt = passport.authenticate('jwt', {
+//   session: false,
+// });
 

@@ -1,43 +1,48 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database'
+import User from './users';
 
 const Driver =  sequelize.define('drivers', {
-    driverID: {
+    
+    driverId: {
         type:Sequelize.INTEGER,
-        primaryKey:true,
-        autoIncrement: true
+        allowNull: true,
     },
     lastName:{
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: null
     },
     firstName:{
         type: Sequelize.STRING,
-        unique: true
+        defaultValue: null
     },
     birthDate:{
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: null
     },
     address: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: null
     },
     phone: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: null
     },
     photo: {
         type: Sequelize.STRING,
-        defaultValue: ''
+        defaultValue: null
     },
     lat: {
         type: Sequelize.STRING,
-        defaultValue: ''
+        defaultValue: null
     },
     long: {
         type: Sequelize.STRING,
-        defaultValue: ''
+        defaultValue: null
     }
 },{
     timestamps: false
 });
- 
+
 
 export default Driver;

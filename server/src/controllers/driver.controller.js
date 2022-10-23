@@ -1,11 +1,13 @@
 import User from '../models/users';
 import Sequelize from 'sequelize';
 import Driver from '../models/drivers';
-import { Router } from 'express';
+import DriverService from '../services/driver.service';
+
+import e, { Router } from 'express';
 const Op = Sequelize.Op;
 
 const router = Router();
-import DriverService from '../services/driver.service'
+
 
 // router.post('', async(req, res, next) => {
 //   try {
@@ -24,13 +26,29 @@ import DriverService from '../services/driver.service'
 // })
 
 export async function infoUpd(req, res) {
+  const inputs = req.body;
+  const obj = {};
+  const id = {};
+  for (var key of Object.keys(inputs)) {
+    if(key !== 'driverId'){
+      obj[key] = `${inputs[key]}`;
+    }else{
+      id[key] = `${inputs[key]}`;
+    }
+  }
+
   try{
-    const id = req.body.driverId;
-    const dataRes = await DriverService.infoUpd(id, req.body);   
+    const dataRes = await DriverService.infoUpd(id, obj);   
     if(dataRes === 1){
       return res.status(200).json({
         success: true,
         message:"Driver update successfully",
+        //data: req.body
+      });
+    }else{
+      return res.status(400).json({
+        success: false,
+        message:"Driver update failed",
         //data: req.body
       });
     }    
@@ -38,7 +56,7 @@ export async function infoUpd(req, res) {
       console.log(err);
       res.status(500).json({
           success: false,
-          message:"Something went wrong!"
+          message:err.message + " Oop! Something went wrong!"
       })
   }
 }
