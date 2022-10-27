@@ -89,8 +89,7 @@ export default class AuthService {
         where:{
         driverId: userId,
       }});
-      
-      console.log(driver.driverId, "drivereeeeeeee");
+
       let authorities = [];    
       user.getRoles().then(roles => {
         for(let i = 0; i<roles.length; i++){

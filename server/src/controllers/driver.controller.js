@@ -38,6 +38,9 @@ export async function infoUpd(req, res) {
   }
 
   try{
+    if(!req.body.driverId){
+      throw new TypeError("Cannot update!!");
+    }
     const dataRes = await DriverService.infoUpd(id, obj);   
     if(dataRes === 1){
       return res.status(200).json({
@@ -63,7 +66,11 @@ export async function infoUpd(req, res) {
 
 
 export async function latLongUpd(req, res, next){   
+  
   try{
+    if(!req.body.driverId){
+      throw new TypeError("Cannot update!!");
+    }
     const id = req.body.driverId;
     const dataRes = await DriverService.latLongUpd(id, req.body);   
     if(dataRes === 1){

@@ -28,10 +28,8 @@ export async function signup (req, res, next){
 
 export async function signin(req, res, next){   
   // const username = req.body.username;
-  // const password = req.body.password.
-  
-  try {
-    
+  // const password = req.body.password.  
+  try {    
     await AuthService.signin(req, res, next);   
   } 
   catch (error) {
@@ -40,7 +38,5 @@ export async function signin(req, res, next){
         success: false,
         message:err.message + " Oop! Something went wrong!"
     });
-  };
-  
+  };  
 };
-
