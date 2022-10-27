@@ -3,7 +3,7 @@ import User from '../models/users';
 import Driver from '../models/drivers';
 import { Router } from 'express';
 const { Sequelize, QueryTypes } = require('sequelize');
-import  sequelize from '../database/database';
+import { sequelize }  from '../database/database';
 const Op = Sequelize.Op;
 
 export default class DriverService {
@@ -18,8 +18,7 @@ export default class DriverService {
       params,
       {
         where: id
-      }
-      );
+      });
       return 1;
     }catch(err){
         console.log(err);
@@ -60,7 +59,10 @@ export default class DriverService {
       //     POW(69.1 * (latitude - [startlat]), 2) +
       //     POW(69.1 * ([startlng] - longitude) * COS(latitude / 57.3), 2)) AS distance
       // FROM TableName HAVING distance < 25 ORDER BY distance
-    const users = await sequelize.query("SELECT * FROM `users`", { type: QueryTypes.SELECT });
+    let mySQL = `
+      SELECT * FROM drivers LIMIT 5
+    `;
+    const users = await sequelize.query(mySQL, { type: QueryTypes.SELECT });
 
     return users;
    

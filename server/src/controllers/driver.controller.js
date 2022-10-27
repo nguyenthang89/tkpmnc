@@ -85,11 +85,13 @@ export async function latLongUpd(req, res, next){
 export async function topNearby(req, res, next){   
   try{
     //const id = req.body.driverId;
+    // save order before get top 6
+    // await Orders.save
     const dataRes = await DriverService.topNearby();   
-    if(dataRes === 1){
+    if(dataRes){
       return res.status(200).json({
         success: true,
-        message:"Driver update successfully",
+        message:"get top 5 drivers successfully",
         data: dataRes
       });
     }    
