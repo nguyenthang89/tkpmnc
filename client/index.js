@@ -18,7 +18,44 @@ app.get("/", function(req, res){
 
 app.post("/", function(req, res){
 })
-
+// Đăng ký
+app.post("/signup", function(req, res){
+    let role = req.body.userRoles;
+    let registerUsername = req.body.registerUsername;
+    let registerEmail = req.body.registerEmail;
+    let registerPassword = req.body.registerPassword;
+    let jsonDataSignup = JSON.stringify({
+        "username": registerUsername,
+        "email": registerEmail,
+        "password": registerPassword,
+        "roles": [role]
+    })
+    let optionsSignup = {
+        hostname: '127.0.0.1',
+        port: 8080,
+        path: '/api/auth/signup',
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    let requestSignup = http.request(optionsSignup, (response)=>{
+        if(response.statusCode === 200){
+            response.on("data", (data)=>{
+                res.render('index');
+            })
+        }
+        else{
+            res.render("index")
+        }
+    })
+    requestSignup.on("error", (err)=>{
+        console.log(err);
+    })
+    requestSignup.write(jsonDataSignup);
+    requestSignup.end();
+})
+//Đăng nhập
 app.post("/admin", function(req, res){
     let username = req.body.username;
     let password = req.body.password;
@@ -70,49 +107,9 @@ app.post("/admin", function(req, res){
     requestSignin.end();
 })
 
-app.post("/signup", function(req, res){
-    let role = req.body.userRoles;
-    let registerUsername = req.body.registerUsername;
-    let registerEmail = req.body.registerEmail;
-    let registerPassword = req.body.registerPassword;
-    let jsonDataSignup = JSON.stringify({
-        "username": registerUsername,
-        "email": registerEmail,
-        "password": registerPassword,
-        "roles": [role]
-    })
-    let optionsSignup = {
-        hostname: '127.0.0.1',
-        port: 8080,
-        path: '/api/auth/signup',
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    let requestSignup = http.request(optionsSignup, (response)=>{
-        if(response.statusCode === 200){
-            response.on("data", (data)=>{
-                res.render('index', {
-                    message: data.message
-                });
-            })
-        }
-        else{
-            res.render("index", {
-                message: data.message
-            })
-        }
-    })
-    requestSignup.on("error", (err)=>{
-        console.log(err);
-    })
-    requestSignup.write(jsonDataSignup);
-    requestSignup.end();
-})
-
 app.post("/dashboard-driver", function(req, res){
     let id = req.body.idDriver;
+
     let lastName = req.body.lastName;
     let firstName = req.body.firstName;
     let birthDate = req.body.birthDate;
@@ -129,27 +126,29 @@ app.post("/dashboard-driver", function(req, res){
         phone: phone,
         photo: photo
     })
-    let optionsDriver = {
-        hostname: '127.0.0.1',
-        port: 8080,
-        path: '/api/driver/info-driver-upd',
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    let requestDriver = http.request(optionsDriver, (response)=>{
-        if(response.statusCode === 200){
-            response.on("data", (data)=>{
-                console.log(JSON.parse(data));
-            })
-        }
-    })
-    requestDriver.on("error", (err)=>{
-        console.log(err);
-    })
-    requestDriver.write(jsonDataDriver);
-    requestDriver.end();
+    console.log(jsonDataDriver);
+    // let optionsDriver = {
+    //     hostname: '127.0.0.1',
+    //     port: 8080,
+    //     path: '/api/driver/info-driver-upd',
+    //     method: "POST",
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'x-access-token': localStorage.getItem('x-token')
+    //     }
+    // }
+    // let requestDriver = http.request(optionsDriver, (response)=>{
+    //     if(response.statusCode === 200){
+    //         response.on("data", (data)=>{
+    //             res.redirect("/dashboard-driver");
+    //         })
+    //     }
+    // })
+    // requestDriver.on("error", (err)=>{
+    //     console.log(err);
+    // })
+    // requestDriver.write(jsonDataDriver);
+    // requestDriver.end();
 })
 
 
