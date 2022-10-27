@@ -67,6 +67,7 @@ export default class AuthService {
       let user = await User.findOne({where:{
           username: req.body.username
       }});
+
       if(!user){           
         return res.status(404).send({message: "User Not Found."});
       }
@@ -82,6 +83,14 @@ export default class AuthService {
         expiresIn: 86400
       });
       
+      let userId = user.id;
+      //return driver Id for client test function
+      let driver = await Driver.findOne({
+        where:{
+        driverId: userId,
+      }});
+      
+      console.log(driver.driverId, "drivereeeeeeee");
       let authorities = [];    
       user.getRoles().then(roles => {
         for(let i = 0; i<roles.length; i++){
@@ -89,6 +98,7 @@ export default class AuthService {
         }
         res.status(200).send({
           id: user.id,
+          driverId: driver.driverId,
           user: user.username,
           email: user.email,
           roles: authorities,

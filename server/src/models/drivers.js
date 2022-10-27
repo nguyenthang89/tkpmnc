@@ -7,6 +7,7 @@ const Driver =  sequelize.define('drivers', {
     driverId: {
         type:Sequelize.INTEGER,
         allowNull: true,
+        primaryKey: true
     },
     lastName:{
         type: Sequelize.STRING,
