@@ -86,10 +86,10 @@ export async function topNearby(req, res, next){
   try{
     //const id = req.body.driverId;
     const dataRes = await DriverService.topNearby();   
-    if(dataRes === 1){
+    if(dataRes){
       return res.status(200).json({
         success: true,
-        message:"Driver update successfully",
+        message:"get driver successfully",
         data: dataRes
       });
     }    
