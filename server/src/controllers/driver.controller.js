@@ -4,6 +4,9 @@ import Driver from '../models/drivers';
 import DriverService from '../services/driver.service';
 
 import e, { Router } from 'express';
+import Order from '../models/orders';
+import Customer from '../models/customers';
+import OrderService from '../services/order.service';
 const Op = Sequelize.Op;
 
 const router = Router();
@@ -65,8 +68,7 @@ export async function infoUpd(req, res) {
 }
 
 
-export async function latLongUpd(req, res, next){   
-  
+export async function latLongUpd(req, res, next){     
   try{
     if(!req.body.driverId){
       throw new TypeError("Cannot update!!");
@@ -94,7 +96,42 @@ export async function topNearby(req, res, next){
     //const id = req.body.driverId;
     // save order before get top 6
     // await Orders.save
-    const dataRes = await DriverService.topNearby();   
+    const inputs = req.body;
+    const obj = {};
+    const id = {};
+    for (var key of Object.keys(inputs)) {
+      obj[key] = `${inputs[key]}`;
+      
+    }
+
+    // let obj = {
+    //   startLat: req.body.lat,
+    //   startLong: req.body.long,
+    // };
+    //const customerId = await User.findOne
+    // Kiem tra xem co phai la khach vang lai ko
+    //let customerId = "";
+
+    let cus = await Customer.findOne({
+      attributes: ['customerId'],
+      where:{
+        phone: req.body.phone,
+        lastName: req.body.lastName,
+        firstName: req.body.firstName,
+      },
+      logging: console.log,
+    });    
+    
+    if(cus){
+      obj.customerId = cus.customerId;
+    }
+    
+    console.log(obj);
+
+    const saveResult = await OrderService.saveOrder(obj);
+
+
+    const dataRes = await DriverService.topNearby(obj.lat, obj.long);   
     if(dataRes){
       return res.status(200).json({
         success: true,
@@ -102,6 +139,33 @@ export async function topNearby(req, res, next){
         data: dataRes
       });
     }    
+  }catch(err){
+      console.log(err);
+      res.status(500).json({
+          success: false,
+          message:"Something went wrong!"
+      })
+  }
+}
+
+
+export async function getInfoDriver(req, res, next){  
+  const driverId = req.body.driverId; 
+  try{   
+    const dataRes = await DriverService.getInfoDriver(driverId);   
+    if(dataRes){
+      return res.status(200).json({
+        success: true,
+        message:"Get drivers successfully",
+        data: dataRes
+      });
+    }else{
+      return res.status(200).json({
+        success: false,
+        message:"Failed, please contact admin to more details.",
+        data: null
+      });
+    }   
   }catch(err){
       console.log(err);
       res.status(500).json({

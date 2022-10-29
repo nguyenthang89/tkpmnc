@@ -2,12 +2,13 @@ import { Router } from 'express';
 const router = Router();
 import "@babel/polyfill"
 
-const { infoUpd, latLongUpd, topNearby } = require('../controllers/driver.controller');
+const { infoUpd, latLongUpd, topNearby, getInfoDriver } = require('../controllers/driver.controller');
 import { verifyToken } from '../middleware/auth.middleware';
 // Kiem tra dk login truoc
 router.post('/info-driver-upd', verifyToken, infoUpd);
 router.post('/lat-long-upd', verifyToken, latLongUpd);
-router.post('/top-nearby', topNearby);
+router.post('/top-nearby', verifyToken, topNearby);
+router.get('/get-info-driver', verifyToken, getInfoDriver);
 
 
 export default router;

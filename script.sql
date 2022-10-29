@@ -7,20 +7,18 @@ USE mytrip;
 # ---------------------------------------------------------------------- #
 # Add table "customers"                                                  #
 # ---------------------------------------------------------------------- #
+ 
+CREATE TABLE IF NOT EXISTS `customers` (
+`customerId` INTEGER , 
+`lastName` VARCHAR(50) DEFAULT NULL, 
+`firstName` VARCHAR(50) DEFAULT NULL, 
+`address` DATETIME DEFAULT NULL, 
+`phone` VARCHAR(11) DEFAULT NULL, 
+`lat` FLOAT(6, 2) DEFAULT NULL, 
+`long` FLOAT(6, 2) DEFAULT NULL, 
+PRIMARY KEY (`customerId`)
+) ENGINE=InnoDB;
 
-CREATE TABLE `customers` (
-    `customerID` VARCHAR(5) NOT NULL,
-    `lastName` VARCHAR(40) NOT NULL,
-    `firstName` VARCHAR(30),    
-    `address` VARCHAR(60),
-    `city` VARCHAR(15),
-    `region` VARCHAR(15),
-    `country` VARCHAR(15),
-    `phone` VARCHAR(24),
-	`lat` FLOAT(10, 6),
-	`long` FLOAT(10, 6),
-    CONSTRAINT `PK_Customers` PRIMARY KEY (`customerID`)
-);
 
 CREATE INDEX `Address` ON `Customers` (`Address`);
 
@@ -41,61 +39,48 @@ CREATE TABLE `drivers` (
     CONSTRAINT `PK_Drivers` PRIMARY KEY (`driverID`)
 );
 
-CREATE INDEX `lat` ON `Drivers` (`lat`);
-CREATE INDEX `long` ON `Drivers` (`long`);
-
-# ---------------------------------------------------------------------- #
-# Add table "Order Details"                                              #
-# ---------------------------------------------------------------------- #
-
-CREATE TABLE `order details` (
-    `OrderID` INTEGER NOT NULL,
-    `ProductID` INTEGER NOT NULL,
-    `UnitPrice` DECIMAL(10,4) NOT NULL DEFAULT 0,
-    `Quantity` SMALLINT(2) NOT NULL DEFAULT 1,
-    `Discount` REAL(8,0) NOT NULL DEFAULT 0,
-    CONSTRAINT `PK_Order Details` PRIMARY KEY (`OrderID`, `ProductID`)
-);
+CREATE INDEX `lat` ON `drivers` (`lat`);
+CREATE INDEX `long` ON `drivers` (`long`);
 
 # ---------------------------------------------------------------------- #
 # Add table "Orders"                                                     #
 # ---------------------------------------------------------------------- #
 
-CREATE TABLE `orders` (
-    `orderID` INTEGER NOT NULL AUTO_INCREMENT,
-    `customerID` VARCHAR(5),
-    `driverID` INTEGER,
-    `orderDate` DATETIME,
-    `requiredDate` DATETIME,
-    `shippedDate` DATETIME,
-    `shipVia` INTEGER,
-    `freight` DECIMAL(10,4) DEFAULT 0,
-    `shipName` VARCHAR(40),
-    `shipAddress` VARCHAR(60),
-    `shipCity` VARCHAR(15),
-    `shipRegion` VARCHAR(15),
-    `shipPostalCode` VARCHAR(10),
-    `shipCountry` VARCHAR(15),
-    CONSTRAINT `PK_Orders` PRIMARY KEY (`orderID`)
+CREATE TABLE IF NOT EXISTS `orders` (
+ `orderId` INTEGER auto_increment , 
+ `customerId` INTEGER DEFAULT NULL, 
+ `driverId` INTEGER DEFAULT NULL, 
+ `departure` VARCHAR(255) DEFAULT NULL, 
+ `destination` VARCHAR(255) DEFAULT NULL, 
+ `startLat` FLOAT(6, 2) DEFAULT NULL, 
+ `startLong` FLOAT(6, 2) DEFAULT NULL, 
+ `endLat` FLOAT(6, 2) DEFAULT NULL, 
+ `endLong` FLOAT(6, 2) DEFAULT NULL, 
+ `loai_xe` VARCHAR(3) DEFAULT NULL, 
+ `flag` VARCHAR(1) DEFAULT NULL, 
+ PRIMARY KEY (`orderId`)) ENGINE=InnoDB;
+
+CREATE TABLE `customers` (
+    `customerId` INT NOT NULL,
+    `lastName` VARCHAR(40) NULL,
+    `firstName` VARCHAR(30),    
+    `address` VARCHAR(60),
+    `city` VARCHAR(15),
+    `region` VARCHAR(15),
+    `country` VARCHAR(15),
+    `phone` VARCHAR(24),
+	`lat` FLOAT(10, 6),
+	`long` FLOAT(10, 6),
+    CONSTRAINT `PK_Customers` PRIMARY KEY (`customerId`)
 );
-
-CREATE INDEX `orderDate` ON `orders` (`orderDate`);
-
-CREATE INDEX `shippedDate` ON `orders` (`shippedDate`);
-
 
 # ---------------------------------------------------------------------- #
 # Foreign key constraints                                                #
 # ---------------------------------------------------------------------- #
 
-ALTER TABLE `order details` ADD CONSTRAINT `FK_Order_Details_Orders` 
-    FOREIGN KEY (`orderID`) REFERENCES `orders` (`orderID`);
-
 ALTER TABLE `orders` ADD CONSTRAINT `FK_Orders_Customers` 
-    FOREIGN KEY (`customerID`) REFERENCES `customers` (`customerID`);
+    FOREIGN KEY (`customerId`) REFERENCES `customers` (`customerId`);
 
-ALTER TABLE `orders` ADD CONSTRAINT `FK_Orders_Drivers` 
-    FOREIGN KEY (`driverID`) REFERENCES `drivers` (`driverID`);
 
  CREATE TABLE IF NOT EXISTS `users` 
  (`id` INTEGER NOT NULL auto_increment ,
@@ -140,3 +125,26 @@ INSERT INTO `mytrip`.`drivers` (`driverID`, `lastName`, `firstName`, `lat`, `Lon
 ALTER TABLE `mytrip`.`drivers` 
 CHANGE COLUMN `lastName` `lastName` VARCHAR(20) NULL ,
 CHANGE COLUMN `firstName` `firstName` VARCHAR(20) NULL ;
+
+
+ALTER TABLE `mytrip`.`orders` 
+ADD COLUMN `cre_dt` DATETIME NULL DEFAULT NULL AFTER `flag`;
+
+ALTER TABLE `mytrip`.`orders` 
+DROP FOREIGN KEY `FK_Orders_Customers`;
+ALTER TABLE `mytrip`.`orders` 
+CHANGE COLUMN `customerId` `customerId` INT NULL ,
+CHANGE COLUMN `driverId` `driverId` INT NULL ,
+CHANGE COLUMN `departure` `departure` VARCHAR(255) NULL ,
+CHANGE COLUMN `destination` `destination` VARCHAR(255) NULL ,
+CHANGE COLUMN `startLat` `startLat` FLOAT(6,2) NULL ,
+CHANGE COLUMN `startLong` `startLong` FLOAT(6,2) NULL ,
+CHANGE COLUMN `endLat` `endLat` FLOAT(6,2) NULL ,
+CHANGE COLUMN `endLong` `endLong` FLOAT(6,2) NULL ,
+CHANGE COLUMN `loai_xe` `loai_xe` VARCHAR(3) NULL ,
+CHANGE COLUMN `flag` `flag` VARCHAR(1) NULL ,
+CHANGE COLUMN `cre_dt` `cre_dt` DATETIME NULL ;
+ALTER TABLE `mytrip`.`orders` 
+ADD CONSTRAINT `FK_Orders_Customers`
+  FOREIGN KEY (`customerId`)
+  REFERENCES `mytrip`.`customers` (`customerId`);

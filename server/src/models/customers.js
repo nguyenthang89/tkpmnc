@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database'
-import User from './users';
+import Order from './orders';
 
-const Driver =  sequelize.define('drivers', {    
-    driverId: {
+const Customer =  sequelize.define('customers', {    
+    customerId: {
         type:Sequelize.INTEGER,
         primaryKey: true
     },
@@ -13,21 +13,19 @@ const Driver =  sequelize.define('drivers', {
     },
     firstName:{
         type: Sequelize.STRING,
-        defaultValue: null
+        defaultValue: null,
+        validate: {
+            len: [0, 50]
+        }
     },
-    birthDate:{
+    address:{
         type: Sequelize.DATE,
-        defaultValue: null
-    },
-    address: {
-        type: Sequelize.STRING,
-        defaultValue: null
+        defaultValue: null,
+        validate: {
+            len: [0, 255]
+        }
     },
     phone: {
-        type: Sequelize.STRING,
-        defaultValue: null
-    },
-    photo: {
         type: Sequelize.STRING,
         defaultValue: null
     },
@@ -43,5 +41,10 @@ const Driver =  sequelize.define('drivers', {
     timestamps: false
 });
 
+Order.belongsTo(Customer, {
+    foreignKey: "customerId",
+    as: "PK_Customer_Order",
+});
+Customer.hasMany(Order, {as: "orders"});
 
-export default Driver;
+export default Customer;

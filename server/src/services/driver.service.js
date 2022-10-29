@@ -4,6 +4,7 @@ import Driver from '../models/drivers';
 import { Router } from 'express';
 const { Sequelize, QueryTypes } = require('sequelize');
 import { sequelize }  from '../database/database';
+import OrderService from './order.service';
 const Op = Sequelize.Op;
 
 export default class DriverService {
@@ -40,7 +41,7 @@ export default class DriverService {
       where: {
         driverID: id
       },
-        logging: console.log
+      logging: console.log
       });
 
       return 1;  
@@ -54,18 +55,32 @@ export default class DriverService {
     }
   }
 
-  static async topNearby() {
-      //   SELECT latitude, longitude, SQRT(
-      //     POW(69.1 * (latitude - [startlat]), 2) +
-      //     POW(69.1 * ([startlng] - longitude) * COS(latitude / 57.3), 2)) AS distance
-      // FROM TableName HAVING distance < 25 ORDER BY distance
+  static async topNearby(startLat, startLong) {   
+
     let mySQL = `
-      SELECT * FROM drivers LIMIT 5
+      SELECT d.*, lat, d.Long, SQRT(
+        POW(69.1 * (d.Long - ${startLat}), 2) +
+        POW(69.1 * (${startLong} - d.Long) * COS(lat / 57.3), 2)) AS distance
+      FROM drivers d HAVING distance < 25 ORDER BY distance LIMIT 5
     `;
-    const users = await sequelize.query(mySQL, { type: QueryTypes.SELECT });
+    const users = await sequelize.query(
+      mySQL, 
+    { type: QueryTypes.SELECT,
+      logging: console.log,
+    });
 
     return users;
    
   }
+
+  static async getInfoDriver(driverId) {   
+    const driver = await Driver.findOne({
+      where: {
+        driverId: driverId,
+      },
+      logging: console.log
+    });    
+    return driver;     
+  }  
 
 }

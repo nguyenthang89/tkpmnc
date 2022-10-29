@@ -5,11 +5,13 @@ export default class UserSerice {
     this.dataRes = null;
   }
 
-  static async getUser(input, req, res, next){
-    console.log(input, "input");   
-    let getData = await User.findOne({where:{
-        id: input.id
-    }});    
+  static async getAdminInfo(id){
+    let getData = await User.findOne({
+      where:{
+        id: id,
+      },
+      logging: console.log,
+    });    
     return getData;   
   }
 }

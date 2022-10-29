@@ -4,10 +4,12 @@ const Op = Sequelize.Op;
 import UserSerive from '../services/user.services';
 import { customRes } from '../utils/commonFunc';
 
-export async function getUsers(req, res, next) {
-    const { body } = req;
+export async function getAdminInfo(req, res, next) {
+    let id  = req.body.id;
+    console.log(id);
     // Lay user tu bang khach hang Customer, chua sua  Customerservice
-    const dataRes = await UserSerive.getUser(body);
+    const dataRes = await UserSerive.getAdminInfo(id);
+    console.log(dataRes);
     customRes(req, res, next, dataRes);
     
 }

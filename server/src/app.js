@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import UserRoutes from './routes/user.routes';
 import AuthRoutes from './routes/auth.routes';
 import DriverRoutes from './routes/driver.routes';
+import Order from './models/orders';
+import Customer from './models/customers';
 
 const app = express();
 

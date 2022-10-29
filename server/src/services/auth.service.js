@@ -1,3 +1,4 @@
+import Customer from "../models/customers";
 import Driver from "../models/drivers";
 import Role from "../models/roles";
 import User from "../models/users";
@@ -41,16 +42,20 @@ export default class AuthService {
         }         
       });
 
-      if(req.body.roles == 'driver'){
-        let user = await User.findOne({where:{
-          username: req.body.username
-        }});
+      let user = await User.findOne({where:{
+        username: req.body.username
+      }});
+      if(req.body.roles == 'driver'){        
         const res = await Driver.create({
           driverId: user.id,          
         }, { fields: ['driverId'] });
-      };
+      }else if(req.body.roles == 'user'){       
+        const res = await Customer.create({
+          customerId: user.id,          
+        }, { fields: ['customerId'] });
+      };      
       
-      return res.status(200).send({ message: "User was registered successfully!" });
+      return res.status(200).send({ message: "Registered successfully!" });
 
     } catch (err) {
       res.status(500).send({ message: err.message});
@@ -63,7 +68,6 @@ export default class AuthService {
 
   static async signin(req, res, next){
     try{
-      console.log(req.body, "reqqqqq");
       let user = await User.findOne({where:{
           username: req.body.username
       }});
