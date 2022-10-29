@@ -22,33 +22,24 @@
       </div>
 
       <!-- Sidebar -->
-      <div class="sidebar flex-d flex-c">
+      <div class="sidebar flex-c flex-c">
         <div class="sidebar-logo flex">
           <span>Taxi</span>
         </div>
 
         <div class="sidebar-center flex flex-c">
-          <div class="icon flex">
-            <ion-icon name="filter-circle-outline"></ion-icon>
-          </div>
-          <div class="icon flex">
-            <ion-icon name="mail-unread-outline"></ion-icon>
-          </div>
-          <div class="icon flex">
-            <ion-icon name="time-outline"></ion-icon>
-          </div>
-          <div class="icon flex">
-            <ion-icon name="calendar-outline"></ion-icon>
-          </div>
-        </div>
-
-        <div class="sidebar-bottom flex flex-c">
-          <div class="icon flex">
-            <ion-icon name="cog-outline"></ion-icon>
-          </div>
-          <div class="icon flex">
-            <ion-icon name="bug-outline"></ion-icon>
-          </div>
+          <form method="post" action="/admin">
+            <button class="icon flex" type="submit"><ion-icon name="home-outline"></ion-icon></button>
+          </form>
+          <form method="post" action="/admin/coordinator">
+            <button class="icon flex" type="submit"><ion-icon name="shield-checkmark-outline"></ion-icon></button>
+          </form>
+          <form method="post" action="/admin/book-car">
+            <button class="icon flex" type="submit"><ion-icon name="person-add-outline"></ion-icon></button>
+          </form>
+          <form method="get" action="/">
+            <button class="icon flex" type="submit"><ion-icon name="exit-outline"></ion-icon></button>
+          </form>
         </div>
       </div>
       <!-- End Sidebar -->
@@ -71,7 +62,7 @@
 
           <div class="user flex">
             <ion-icon name="person-circle-outline" class="icon-btn"></ion-icon>
-            <h4>Hassnain</h4>
+            <h4>Admin</h4>
           </div>
         </div>
       </div>
@@ -114,20 +105,6 @@
               </div>
             </div>
 
-            <div class="customers">
-              <h2>Customer</h2>
-              <div class="country flex">
-                <span class="blue"></span>
-                <h4>Europe</h4>
-                <p>79%</p>
-              </div>
-
-              <div class="country flex">
-                <span class="green"></span>
-                <h4>Asia</h4>
-                <p>52%</p>
-              </div>
-            </div>
           </div>
         </div>
         <div class="main-bottom-right flex-d flex-c">
