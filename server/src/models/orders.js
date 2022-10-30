@@ -40,7 +40,13 @@ const Order =  sequelize.define('orders', {
     loai_xe:{
         type: Sequelize.STRING,
         validate: {
-            len: [0, 1]
+            len: [0, 2]
+        }
+    },   
+    phone:{
+        type: Sequelize.STRING,
+        validate: {
+            len: [0, 11]
         }
     },    
     cre_dt: {

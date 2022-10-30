@@ -3,7 +3,7 @@ import e from 'express';
 //const User =  require('../models/users');
 import Role from '../models/roles';
 import User from '../models/users';
-import AuthService from '../services/auth.service';
+import AuthService from '../services/auth.services';
 import { customRes } from '../utils/commonFunc';
 //const Op = db.Sequelize.Op;
 const Sequelize = require('sequelize');

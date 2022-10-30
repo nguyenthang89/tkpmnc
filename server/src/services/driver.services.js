@@ -4,7 +4,7 @@ import Driver from '../models/drivers';
 import { Router } from 'express';
 const { Sequelize, QueryTypes } = require('sequelize');
 import { sequelize }  from '../database/database';
-import OrderService from './order.service';
+import OrderService from './order.services';
 const Op = Sequelize.Op;
 
 export default class DriverService {
@@ -56,19 +56,23 @@ export default class DriverService {
   }
 
   static async topNearby(endLat, endLong) {   
+    // let mySQL = `
+    //   SELECT d.*, lat, d.Long, SQRT(
+    //     POW(69.1 * (d.Long - ${endLat}), 2) +
+    //     POW(69.1 * (${endLong} - d.Long) * COS(lat / 57.3), 2)) AS distance
+    //   FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 5
+    // `;
+
     let mySQL = `
-      SELECT d.*, lat, d.Long, SQRT(
-        POW(69.1 * (d.Long - ${endLat}), 2) +
-        POW(69.1 * (${endLong} - d.Long) * COS(lat / 57.3), 2)) AS distance
-      FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 5
+      SELECT * FROM DRIVERS LIMIT 5
     `;
-    const users = await sequelize.query(
+    const drivers = await sequelize.query(
       mySQL, 
     { type: QueryTypes.SELECT,
       logging: console.log,
     });
 
-    return users;   
+    return drivers;   
   }
 
   static async getInfoDriver(driverId) {   

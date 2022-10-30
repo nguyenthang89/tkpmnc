@@ -1,32 +1,15 @@
 import User from '../models/users';
 import Sequelize from 'sequelize';
 import Driver from '../models/drivers';
-import DriverService from '../services/driver.service';
+import DriverService from '../services/driver.services';
 
 import e, { Router } from 'express';
 import Order from '../models/orders';
 import Customer from '../models/customers';
-import OrderService from '../services/order.service';
+import OrderService from '../services/order.services';
 const Op = Sequelize.Op;
 
 const router = Router();
-
-
-// router.post('', async(req, res, next) => {
-//   try {
-//     const id = req.body.driverId;
-
-//     const dataRes = await DriverService.infoUpd(id, req.body);
-//     if(dataRes === 1){
-//       return res.status(200).json({
-//         success: true,
-//         message: 'Update driver successfully'
-//       })
-//     }
-//   } catch (error) {
-//     console.log();
-//   }
-// })
 
 export async function infoUpd(req, res) {
   const inputs = req.body;
@@ -126,7 +109,14 @@ export async function topNearby(req, res, next){
     }    
 
     await OrderService.saveOrder(obj);
-    
+    // const dataRes = await OrderService.getTop5(obj.lat, obj.long);   
+    // if(dataRes){
+    //   return res.status(200).json({
+    //     success: true,
+    //     message:"Found " +dataRes.length + " drivers in 2 km",
+    //     data: dataRes
+    //   });
+    // }    
     const dataRes = await DriverService.topNearby(obj.lat, obj.long);   
     if(dataRes){
       return res.status(200).json({

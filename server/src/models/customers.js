@@ -41,10 +41,10 @@ const Customer =  sequelize.define('customers', {
     timestamps: false
 });
 
-Order.belongsTo(Customer, {
-    foreignKey: "customerId",
-    as: "PK_Customer_Order",
-});
-Customer.hasMany(Order, {as: "orders"});
+// Order.belongsTo(Customer, {
+//     foreignKey: "customerId",
+//     as: "PK_Customer_Order",
+// });
+// Customer.hasMany(Order, {as: "orders"});
 
 export default Customer;

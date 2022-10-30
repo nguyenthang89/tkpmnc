@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import UserRoutes from './routes/user.routes';
 import AuthRoutes from './routes/auth.routes';
 import DriverRoutes from './routes/driver.routes';
+import AdminRoutes from './routes/admin.routes';
 import Order from './models/orders';
 import Customer from './models/customers';
 
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', AuthRoutes)
 app.use('/api/user', UserRoutes)
 app.use('/api/driver', DriverRoutes)
+app.use('/api/admin', AdminRoutes)
 //app.use('/api/auth/', AuthRoutes)
 //app.post("signup", [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted], authController.signup);
 export default app;
