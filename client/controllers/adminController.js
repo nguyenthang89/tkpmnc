@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
-
-let dataCoordinator = [];
+let data = localStorage.getItem('coordinator') ? JSON.parse(localStorage.getItem('coordinator')) : {};
+console.log(data);
 const dashboard = (req, res, next)=>{
     res.render("admin/dashboard-admin.hbs");
 }
@@ -43,7 +43,7 @@ const postBookCar = (req, res, next)=>{
     fetch(url, options)
     .then(response => response.json())
     .then(data => {
-        dataCoordinator.push(data);
+        
         res.redirect(307, "/admin/book-car");
     })
     .catch(err => {

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Dashobord</title>
+    <link rel="stylesheet" href="/css/dashboard_admin.css">
+</head>
+
+<body>
+    <!-- App -->
+    <div class="app">
+        <div class="main flex-d flex-c">
+            <div class="main-top flex-c">
+                <h3>Chưa biết ghi title gì</h3>
+            </div>
+            <div class="main-bottom flex-c">
+                <div id="map"></div>
+            </div>
+    </div>
+    <!-- End App -->
+
+    <!-- Ion Icons Js -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyhFZp_7CrnYAbTN1yxDzt4kxLmZMmY8o&callback=initMap"></script>
+    <script>
+        function initMap() {
+            var locations = [
+                ['Nguyễn Văn Quá Quận 12', 10.840970, 106.630860, 4],
+                ['Phạm Văn Chiêu Gò Vấp', 10.837350, 106.637863, 5],
+                ['Phan Huy Ích Gò Vấp', 10.838530, 106.636840, 3],
+                ['Dương Thị Mười Quận 12', 10.859310, 106.630110, 2],
+                ['Nguyễn Thị Thập Quận 12', 10.738030, 106.729390, 1]
+            ];
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: new google.maps.LatLng(10.840970, 106.630860),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var infowindow = new google.maps.InfoWindow();
+
+            var marker, i;
+
+            for (i = 0; i < locations.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(locations[i][0]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+        }
+    </script>
+</body>
+
+</html>
