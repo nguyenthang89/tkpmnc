@@ -100,10 +100,9 @@ export async function topNearby(req, res, next){
     const obj = {};
     const id = {};
     for (var key of Object.keys(inputs)) {
-      obj[key] = `${inputs[key]}`;
-      
+      obj[key] = `${inputs[key]}`;      
     }
-
+    
     // let obj = {
     //   startLat: req.body.lat,
     //   startLong: req.body.long,
@@ -124,13 +123,10 @@ export async function topNearby(req, res, next){
     
     if(cus){
       obj.customerId = cus.customerId;
-    }
+    }    
+
+    await OrderService.saveOrder(obj);
     
-    console.log(obj);
-
-    const saveResult = await OrderService.saveOrder(obj);
-
-
     const dataRes = await DriverService.topNearby(obj.lat, obj.long);   
     if(dataRes){
       return res.status(200).json({

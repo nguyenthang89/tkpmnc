@@ -50,18 +50,17 @@ export default class DriverService {
         console.log(err);
         res.status(500).json({
             success: false,
-            message:"Something went wrong!"
+            message:"Oop! Something went wrong!"
         })
     }
   }
 
-  static async topNearby(startLat, startLong) {   
-
+  static async topNearby(endLat, endLong) {   
     let mySQL = `
       SELECT d.*, lat, d.Long, SQRT(
-        POW(69.1 * (d.Long - ${startLat}), 2) +
-        POW(69.1 * (${startLong} - d.Long) * COS(lat / 57.3), 2)) AS distance
-      FROM drivers d HAVING distance < 25 ORDER BY distance LIMIT 5
+        POW(69.1 * (d.Long - ${endLat}), 2) +
+        POW(69.1 * (${endLong} - d.Long) * COS(lat / 57.3), 2)) AS distance
+      FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 5
     `;
     const users = await sequelize.query(
       mySQL, 
@@ -69,8 +68,7 @@ export default class DriverService {
       logging: console.log,
     });
 
-    return users;
-   
+    return users;   
   }
 
   static async getInfoDriver(driverId) {   

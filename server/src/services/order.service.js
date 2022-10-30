@@ -9,10 +9,15 @@ export default class OrderService {
   static async saveOrder(params){
     console.log(params);
     await Order.create({ 
-      startLat: params.lat, 
-      startLong: params.long, 
-      customerId: 9
+      endLat: params.lat, 
+      endLong: params.long, 
+      customerId: 9,
+      departure: params.from,
+      destination: params.to,
+      loai_xe: params.loai_xe
     });
+
+    //return result;
     // let getData = await User.findOne({
     //   where:{
     //     id: id,
