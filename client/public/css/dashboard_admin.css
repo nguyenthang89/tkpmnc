@@ -365,6 +365,10 @@ span.green {
 }
 /* End Form */
 
+#map{
+  height: 400%; 
+  width: 100%; 
+}
 @media (max-width: 768px) {
   .app {
     border-radius: 5px;
