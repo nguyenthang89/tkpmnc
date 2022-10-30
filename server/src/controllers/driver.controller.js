@@ -102,7 +102,7 @@ export async function topNearby(req, res, next){
     for (var key of Object.keys(inputs)) {
       obj[key] = `${inputs[key]}`;      
     }
-    
+
     // let obj = {
     //   startLat: req.body.lat,
     //   startLong: req.body.long,
@@ -131,7 +131,7 @@ export async function topNearby(req, res, next){
     if(dataRes){
       return res.status(200).json({
         success: true,
-        message:"get top 5 drivers successfully",
+        message:"Found " +dataRes.length + " drivers in 2 km",
         data: dataRes
       });
     }    
