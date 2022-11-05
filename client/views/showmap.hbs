@@ -30,11 +30,16 @@
     <script>
         function initMap() {
             var locations = [
-                ['Nguyễn Văn Quá Quận 12', 10.840970, 106.630860, 4],
-                ['Phạm Văn Chiêu Gò Vấp', 10.837350, 106.637863, 5],
-                ['Phan Huy Ích Gò Vấp', 10.838530, 106.636840, 3],
-                ['Dương Thị Mười Quận 12', 10.859310, 106.630110, 2],
-                ['Nguyễn Thị Thập Quận 12', 10.738030, 106.729390, 1]
+                new google.maps.LatLng(10.8541847, 106.6255021),
+                new google.maps.LatLng(10.854224, 106.626399),
+                new google.maps.LatLng(10.853828, 106.626597),
+                new google.maps.LatLng(10.852984, 106.626930),
+                new google.maps.LatLng(10.852555, 106.626745),
+                new google.maps.LatLng(10.851804, 106.626867),
+                new google.maps.LatLng(10.851246, 106.627442),
+                new google.maps.LatLng(10.847689, 106.634993),
+                new google.maps.LatLng(10.847202, 106.634783),
+                new google.maps.LatLng(10.846658, 106.6342423)
             ];
 
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -46,20 +51,19 @@
             var infowindow = new google.maps.InfoWindow();
 
             var marker, i;
-
-            for (i = 0; i < locations.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                    map: map
-                });
-
-                google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                    return function () {
-                        infowindow.setContent(locations[i][0]);
-                        infowindow.open(map, marker);
-                    }
-                })(marker, i));
-            }
+                for (i = 0; i < locations.length; i++) {
+                    let m = locations[i];
+                    (function(n){
+                        setTimeout(function(){
+                            new google.maps.Marker({
+                                position: n,
+                                map: map,
+                                draggable: false,
+                                animation: google.maps.Animation.DROP
+                            })
+                        }, i * 5000)
+                    }(m))
+                }
         }
     </script>
 </body>

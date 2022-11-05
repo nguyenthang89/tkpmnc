@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sales Dashobord</title>
+  <title>Đặt xe</title>
   <link rel="stylesheet" href="/css/dashboard_admin.css">
 </head>
 
@@ -88,23 +88,31 @@
                     <div class="flex flex-d g-2">
                         <div class="form__group">
                             <input type="text" name="from" class="form-style"
-                                placeholder="Địa chỉ đi" id="from" autocomplete="off">
+                                placeholder="Địa chỉ đi" id="from" autocomplete="off" required>
                             <i class="input-icon uil uil-at"></i>
                         </div>
                         <div class="form__group">
                             <input type="text" name="to" class="form-style"
-                                placeholder="Địa chỉ đến" id="to" autocomplete="off">
+                                placeholder="Địa chỉ đến" id="to" autocomplete="off" required>
                             <i class="input-icon uil uil-at"></i>
                         </div>
                     </div>
                     <div class="flex flex-d g-2">
                         <div class="form__group">
-                            <input type="text" name="phone" class="form-style"
-                                placeholder="Nhập điện thoại của bạn" id="phone" autocomplete="off">
+                            <input type="text" name="phone" class="form-style" minlength="10" maxlength="10"
+                                placeholder="Nhập điện thoại của bạn" id="phone" autocomplete="off" required />
                             <i class="input-icon uil uil-at"></i>
                         </div>
-                        <button type="submit" class="btn btn__submit">Đặt xe</button>
+                        <div class="form__group">
+                            <select name="loaixe" class="form-style">
+                              <option value="4">4 chỗ</option>
+                              <option value="7">7 chỗ</option>
+                              <option value="9">9 chỗ</option>
+                              <option value="16">16 chỗ</option>
+                            </select>
+                        </div>
                     </div>
+                    <button type="submit" class="btn btn__submit">Đặt xe</button>
                 </form>
             </div>
 

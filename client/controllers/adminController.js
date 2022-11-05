@@ -19,6 +19,7 @@ const postBookCar = (req, res, next)=>{
     let from = req.body.from;
     let to = req.body.to;
     let phone = req.body.phone;
+    let loai_xe = req.body.loaixe;
     let lat = 11.89462;
     let long = 106.755173;
 
@@ -29,9 +30,10 @@ const postBookCar = (req, res, next)=>{
         to: to,
         phone: phone,
         lat: lat,
-        long: long
+        long: long,
+        loai_xe: loai_xe
     });
-    let url = 'http://localhost:8080/api/driver/top-nearby';
+    let url = 'http://localhost:8080/api/admin/coordinate';
     let options = {
         method: "POST",
         headers: {
