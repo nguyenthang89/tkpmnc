@@ -10,53 +10,36 @@ import OrderService from '../services/order.services';
 const Op = Sequelize.Op;
 
 const router = Router();
-export async function getTop5Address(req, res, next){   
+export async function getTop5ByCellPhone(req, res, next){   
   try{
-    const inputs = req.body;
-    const obj = {};
-    const id = {};
     const whereCondition = {};
-    for (var key of Object.keys(inputs)) {
-      obj[key] = `${inputs[key]}`;      
-    }
-    
-    let cus = await Customer.findOne({
-      attributes: ['customerId'],
-      where:{
-        phone: req.body.phone,
-        lastName: req.body.lastName,
-        firstName: req.body.firstName,
-      },
-      logging: console.log,
-    });    
-    
-    // Kiem tra xem co phai la khach vang lai ko
-    if(cus){
-      obj.customerId = cus.customerId;
-      whereCondition.customerId = cus.customerId;
-    }else{
-      whereCondition.phone = req.body.phone;
-    }
+    whereCondition.phone = req.body.phone; 
 
-    await OrderService.saveOrder(obj);
-    const dataRes = await OrderService.getTop5Address(whereCondition);   
-    if(dataRes){
+    const dataResAddress = await OrderService.getTop5Address(whereCondition);   
+    const dataResRecentCalled = await OrderService.getTop5RecentCalled(whereCondition);   
+    if(dataResAddress && dataResRecentCalled){
       return res.status(200).json({
         success: true,
-        message:"Get " + dataRes.length + " recent called successfully",
-        data: dataRes
+        message:"Get " + dataResRecentCalled.length + " recent called successfully",
+        //message2:"Get " + dataResAddress.length + " recent called successfully",
+        data: dataResAddress,
+        arr: dataResRecentCalled
       });
-    }    
+    }else{
+      return res.status(400).json({
+        success: false,
+        message:"BAD REQUEST"
+      });
+    }  
    
   }catch(err){
       console.log(err);
       res.status(500).json({
           success: false,
-          message:"Something went wrong!"
+          message: err.message
       })
   }
-}
-
+};
 
 export async function coordinate(req, res, next){   
   try{
@@ -81,21 +64,14 @@ export async function coordinate(req, res, next){
     // Kiem tra xem co phai la khach vang lai ko
     if(cus){
       obj.customerId = cus.customerId;
-      whereCondition.customerId = cus.customerId;
-    }else{
-      whereCondition.phone = req.body.phone;
-    }
+    };
 
-    await OrderService.saveOrder(obj);
-    const dataResCalled = await OrderService.getTop5(whereCondition);   
-    const dataResAddress = await OrderService.getTop5Address(whereCondition);   
+    const dataRes = await OrderService.saveOrder(obj);
 
-    if(dataResCalled){
+    if(dataRes === 1){
       return res.status(200).json({
         success: true,
-        message:"Get " + dataResCalled.length + " recent called successfully",
-        data: dataResCalled,
-        array: dataResAddress,
+        message:"Save successfully"        
       });
     }    
    
@@ -106,5 +82,5 @@ export async function coordinate(req, res, next){
           message:"Something went wrong!"
       })
   }
-}
+};
 

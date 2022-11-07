@@ -18,10 +18,10 @@ export default class OrderService {
       phone: params.phone,
       //logging: console.log
     });   
+    return 1;
   }
   
-  static async getTop5(whereCondition){
-    console.log(whereCondition);
+  static async getTop5RecentCalled(whereCondition){
     const history = await Order.findAll({
       where: whereCondition,
       attributes: ['customerId', 'phone', 'driverId', 'departure', 'destination', 'cre_dt', 'loai_xe',
@@ -36,7 +36,6 @@ export default class OrderService {
   }
 
   static async getTop5Address(whereCondition){
-    console.log(whereCondition);
     const history = await Order.findAll({
       where: whereCondition,
       attributes: ['customerId', 'phone', 'driverId', 'departure', 'destination', 'cre_dt', 'loai_xe'],
