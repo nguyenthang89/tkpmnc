@@ -87,13 +87,17 @@ export default class AuthService {
         expiresIn: 86400
       });
       
-      let userId = user.id;
-      //return driver Id for client test function
-      let driver = await Driver.findOne({
-        where:{
-        driverId: userId,
-      }});
+      // let userId = user.id;
+      // //return driver Id for client test function
+      // let driver = await Driver.findOne({
+      //   where:{
+      //   driverId: userId,
+      // }});
 
+      // if(!driver){
+      //   driver = null;
+      // }
+      
       let authorities = [];    
       user.getRoles().then(roles => {
         for(let i = 0; i<roles.length; i++){
@@ -101,7 +105,7 @@ export default class AuthService {
         }
         res.status(200).send({
           id: user.id,
-          driverId: driver.driverId,
+          //driverId: driver.driverId,
           user: user.username,
           email: user.email,
           roles: authorities,
