@@ -29,16 +29,24 @@
 
         <div class="sidebar-center flex flex-c">
           <form method="post" action="/admin">
-            <button class="icon flex" type="submit"><ion-icon name="home-outline"></ion-icon></button>
+            <button class="icon flex" type="submit">
+              <ion-icon name="home-outline"></ion-icon>
+            </button>
           </form>
           <form method="post" action="/admin/coordinator">
-            <button class="icon flex" type="submit"><ion-icon name="shield-checkmark-outline"></ion-icon></button>
+            <button class="icon flex" type="submit">
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
+            </button>
           </form>
           <form method="post" action="/admin/book-car">
-            <button class="icon flex" type="submit"><ion-icon name="person-add-outline"></ion-icon></button>
+            <button class="icon flex" type="submit">
+              <ion-icon name="person-add-outline"></ion-icon>
+            </button>
           </form>
           <form method="get" action="/">
-            <button class="icon flex" type="submit"><ion-icon name="exit-outline"></ion-icon></button>
+            <button class="icon flex" type="submit">
+              <ion-icon name="exit-outline"></ion-icon>
+            </button>
           </form>
         </div>
       </div>
@@ -66,78 +74,87 @@
           </div>
         </div>
       </div>
-      <div class="main-bottom flex-d">
+      <div class="main-bottom flex-d flex-c">
         <div class="main-bottom-left flex flex-c">
-          <div class="graph">
-            <img src="https://raw.githubusercontent.com/programmercloud/sales-dashboard/main/img/graph.png" alt="" />
-            <a href="#" class="btn">See Details</a>
-          </div>
-
           <div class="stats flex-d">
             <div class="top-selling">
               <div class="head flex-d">
-                <h2>Top selling product</h2>
-                <p>7 days</p>
+                <h2>Top 5 cuộc gọi gần nhất</h2>
               </div>
 
               <div class="flex-d">
-                <div class="details flex-d">
-                  <div class="table">
-                    <div class="row flex-d">
-                      <h4>Name</h4>
-                      <p>Iphone</p>
-                    </div>
-
-                    <div class="row flex-d">
-                      <h4>Price</h4>
-                      <p>$499</p>
-                    </div>
-
-                    <div class="row flex-d">
-                      <h4>Sales</h4>
-                      <p>27</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="product">
-                  <img src="https://raw.githubusercontent.com/programmercloud/sales-dashboard/main/img/laptop.png" alt="" />
+                <div class="flex-d">
+                  <table class="table table-responsive">
+                    <thead>
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Họ tên khách hàng</th>
+                        <th scope="col">Điện thoại</th>
+                        <th scope="col">Điểm đi</th>
+                        <th scope="col">Điểm đến</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Loại xe</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#each topCall}}
+                        <tr>
+                          <th scope="row">{{customerId}}</th>
+                          <td>noname</td>
+                          <td>{{phone}}</td>
+                          <td>{{departure}}</td>
+                          <td>{{destination}}</td>
+                          <td>{{cre_dt}}</td>
+                          <td>{{loai_xe}}</td>
+                        </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
 
           </div>
         </div>
-        <div class="main-bottom-right flex-d flex-c">
-          <div class="orders">
-            <h2>Recent Orders</h2>
-            <div class="order flex-d">
-              <ion-icon class="icon-btn" name="logo-apple"></ion-icon>
-              <p>Iphone</p>
-              <p class="price">$499</p>
+        <div class="main-bottom-left flex flex-c">
+          <div class="stats flex-d">
+            <div class="top-selling">
+              <div class="head flex-d">
+                <h2>Top 5 địa chỉ đi nhiều nhất</h2>
+              </div>
+
+              <div class="flex-d">
+                <div class="flex-d">
+                  <table class="table table-responsive">
+                    <thead>
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Họ tên khách hàng</th>
+                        <th scope="col">Điện thoại</th>
+                        <th scope="col">Điểm đi</th>
+                        <th scope="col">Điểm đến</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Loại xe</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#each topAddress}}
+                        <tr>
+                          <th scope="row">{{customerId}}</th>
+                          <td>noname</td>
+                          <td>{{phone}}</td>
+                          <td>{{departure}}</td>
+                          <td>{{destination}}</td>
+                          <td>{{cre_dt}}</td>
+                          <td>{{loai_xe}}</td>
+                        </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
 
-            <div class="order flex-d">
-              <ion-icon class="icon-btn" name="logo-google"></ion-icon>
-              <p>G.Phone</p>
-              <p class="price">$1249</p>
-            </div>
-
-            <div class="order flex-d">
-              <ion-icon class="icon-btn" name="logo-microsoft"></ion-icon>
-              <p>Laptop</p>
-              <p class="price">$2399</p>
-            </div>
-
-            <div class="order flex-d">
-              <ion-icon class="icon-btn" name="watch-outline"></ion-icon>
-              <p>Watch</p>
-              <p class="price">$500</p>
-            </div>
-          </div>
-
-          <div class="plans flex flex-c">
-            <h2>Weekly Plan</h2>
-            <div class="progress-bar flex">49%</div>
           </div>
         </div>
       </div>

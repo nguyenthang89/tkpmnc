@@ -1,13 +1,62 @@
 const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
-let data = localStorage.getItem('coordinator') ? JSON.parse(localStorage.getItem('coordinator')) : {};
-console.log(data);
+
 const dashboard = (req, res, next)=>{
-    res.render("admin/dashboard-admin.hbs");
+    let data = {
+        phone: localStorage.getItem('phone-customer')
+    }
+    let url = "http://localhost:8080/api/admin/get-top-5";
+    let options = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('x-token')
+        },
+        body: JSON.stringify(data)
+    }
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => 
+        res.render("admin/dashboard-admin.hbs", {
+           topCall: data.data,
+           topAddress: data.arr
+        })
+    )
+    .catch(error => {
+        console.log(error);
+    })
 }
 const coordinator = (req, res, next)=>{
-    res.render("admin/coordinator.hbs", {data: dataCoordinator});
+    let data = JSON.parse(localStorage.getItem("customer")) ? JSON.parse(localStorage.getItem("customer")) : "";
+    let url = "http://localhost:8080/api/driver/top-nearby";
+    let options = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("x-token")
+        },
+        body: JSON.stringify(
+            {
+                lastName: data.lastName,
+                firstName: data.firstName,
+                from: data.from,
+                to: data.to,
+                lat: data.lat,
+                long: data.long,
+                phone: data.phone,
+                loai_xe: data.loai_xe
+            }
+        )
+    }
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        res.render("admin/coordinator.hbs", {
+            data: data
+        });
+    })
+    .catch(err => console.log(err));
 }
 const bookCar = (req, res, next)=>{
     res.render("admin/book-car.hbs");
@@ -22,7 +71,7 @@ const postBookCar = (req, res, next)=>{
     let loai_xe = req.body.loaixe;
     let lat = 11.89462;
     let long = 106.755173;
-
+    localStorage.setItem('phone-customer', phone);
     let jsonDataBookCar = JSON.stringify({
         lastName: lastName,
         firstName: firstName,
@@ -33,6 +82,7 @@ const postBookCar = (req, res, next)=>{
         long: long,
         loai_xe: loai_xe
     });
+    
     let url = 'http://localhost:8080/api/admin/coordinate';
     let options = {
         method: "POST",
@@ -45,7 +95,6 @@ const postBookCar = (req, res, next)=>{
     fetch(url, options)
     .then(response => response.json())
     .then(data => {
-        
         res.redirect(307, "/admin/book-car");
     })
     .catch(err => {
@@ -53,9 +102,34 @@ const postBookCar = (req, res, next)=>{
     })
 }
 
+// const chooseDriver = (req, res, next) =>{
+//     let driverID = req.body.driverID;
+//     let data = {
+//         driverID: driverID
+//     }
+//     let url = "http://localhost:8080/api/admin/send-message";
+//     let options = {
+//         method: "POST",
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'x-access-token': localStorage.getItem('x-token')
+//         },
+//         body: JSON.stringify(data)
+//     }
+//     fetch(url, options)
+//     .then(response => response.json())
+//     .then(data => {
+//         res.render("admin/chooseDriver", {
+//             message: data.data.responseData.message
+//         })
+//     })
+//     .catch(err => console.log(err));
+// }
+
 module.exports = {
     dashboard,
     coordinator,
     bookCar,
-    postBookCar
+    postBookCar,
+    // chooseDriver
 }

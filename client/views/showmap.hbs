@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sales Dashobord</title>
     <link rel="stylesheet" href="/css/dashboard_admin.css">
+    <link rel="stylesheet" href="/css/showmap.css">
 </head>
 
 <body>
@@ -14,58 +15,91 @@
     <div class="app">
         <div class="main flex-d flex-c">
             <div class="main-top flex-c">
-                <h3>Chưa biết ghi title gì</h3>
+                <h3>Hiển thị đường đi</h3>
             </div>
             <div class="main-bottom flex-c">
-                <div id="map"></div>
+                <div id="container">
+                    <div id="map"></div>
+                    <div id="sidebar">
+                        <p>Tổng đường đi: <span id="total"></span></p>
+                        <div id="panel"></div>
+                    </div>
+                </div>
             </div>
-    </div>
-    <!-- End App -->
+        </div>
+        <!-- End App -->
 
-    <!-- Ion Icons Js -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyhFZp_7CrnYAbTN1yxDzt4kxLmZMmY8o&callback=initMap"></script>
-    <script>
-        function initMap() {
-            var locations = [
-                new google.maps.LatLng(10.8541847, 106.6255021),
-                new google.maps.LatLng(10.854224, 106.626399),
-                new google.maps.LatLng(10.853828, 106.626597),
-                new google.maps.LatLng(10.852984, 106.626930),
-                new google.maps.LatLng(10.852555, 106.626745),
-                new google.maps.LatLng(10.851804, 106.626867),
-                new google.maps.LatLng(10.851246, 106.627442),
-                new google.maps.LatLng(10.847689, 106.634993),
-                new google.maps.LatLng(10.847202, 106.634783),
-                new google.maps.LatLng(10.846658, 106.6342423)
-            ];
+        <!-- Ion Icons Js -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+        <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyhFZp_7CrnYAbTN1yxDzt4kxLmZMmY8o&callback=initMap&v=weekly"
+      defer
+    ></script>
+        <script>
+            function initMap() {
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 4,
+                    center: { lat: -24.345, lng: 134.46 },
+                });
+                const directionsService = new google.maps.DirectionsService();
+                const directionsRenderer = new google.maps.DirectionsRenderer({
+                    draggable: true,
+                    map,
+                    panel: document.getElementById("panel"),
+                });
 
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: new google.maps.LatLng(10.840970, 106.630860),
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
+                directionsRenderer.addListener("directions_changed", () => {
+                    const directions = directionsRenderer.getDirections();
 
-            var infowindow = new google.maps.InfoWindow();
+                    if (directions) {
+                        computeTotalDistance(directions);
+                    }
+                });
+                displayRoute(
+                    "12 Nguyễn Trãi, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh 700000, Việt Nam",
+                    "12 Nguyễn Xí, Phường 26, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam",
+                    directionsService,
+                    directionsRenderer
+                );
+            }
 
-            var marker, i;
-                for (i = 0; i < locations.length; i++) {
-                    let m = locations[i];
-                    (function(n){
-                        setTimeout(function(){
-                            new google.maps.Marker({
-                                position: n,
-                                map: map,
-                                draggable: false,
-                                animation: google.maps.Animation.DROP
-                            })
-                        }, i * 5000)
-                    }(m))
+            function displayRoute(origin, destination, service, display) {
+                service
+                    .route({
+                        origin: origin,
+                        destination: destination,
+                        waypoints: [
+                            { location: "12 Nguyễn Gia Trí, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh 700000, Việt Nam" }
+                        ],
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        avoidTolls: true,
+                    })
+                    .then((result) => {
+                        display.setDirections(result);
+                    })
+                    .catch((e) => {
+                        alert("Could not display directions due to: " + e);
+                    });
+            }
+
+            function computeTotalDistance(result) {
+                let total = 0;
+                const myroute = result.routes[0];
+                if (!myroute) {
+                    return;
                 }
-        }
-    </script>
+
+                for (let i = 0; i < myroute.legs.length; i++) {
+                    total += myroute.legs[i].distance.value;
+                }
+
+                total = total / 1000;
+                document.getElementById("total").innerHTML = total + " km";
+            }
+
+            window.initMap = initMap;
+        </script>
 </body>
 
 </html>

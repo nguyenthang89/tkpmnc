@@ -25,19 +25,24 @@ async function postSignin(req, res, next){
     fetch(url,options)
     .then((response)=>response.json())
     .then((data)=>{
-        let role = data.roles[0];
-        localStorage.setItem('x-token', data.token);
-        localStorage.setItem('id', data.id);
-        switch(role){
-            case "ROLE_ADMIN":
-                res.redirect(307, "/admin");
-                break;
-            case "ROLE_DRIVER":
-                res.redirect(307, "/driver");
-                break;
-            default:
-                res.redirect("/");
-                break; 
+        if(data.statusCode == 200){
+            let role = data.roles[0];
+            localStorage.setItem('x-token', data.token);
+            localStorage.setItem('id', data.id);
+            switch(role){
+                case "ROLE_ADMIN":
+                    res.redirect(307, "/admin");
+                    break;
+                case "ROLE_DRIVER":
+                    res.redirect(307, "/driver");
+                    break;
+                default:
+                    res.redirect("/");
+                    break; 
+            }
+        }
+        else{
+            res.render("signin", {message: data.message})
         }
         
     })

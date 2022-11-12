@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Điều phối xe</title>
+  <title>Chọn tài xế</title>
   <link rel="stylesheet" href="/css/dashboard_admin.css">
 </head>
 
@@ -69,51 +69,7 @@
         <div class="main-bottom flex-d">
           <div class="main-bottom-left flex flex-c">
             <div class="stats flex-d">
-              {{#if data.length}}
-                <div class="top-selling">
-                  <div class="head flex-d">
-                    <h2>{{ message }}</h2>
-                  </div>
-    
-                  <div class="flex-d">
-                    <div class="flex-d">
-                      <table class="table table-responsive">
-                        <thead>
-                          <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Họ tên tài xế</th>
-                            <th scope="col">Ngày sinh</th>
-                            <th scope="col">Điện thoại</th>
-                            <th scope="col">Địa chỉ</th>
-                            <th scope="col">Vị trí hiện tại</th>
-                            <th scope="col">Chọn tài xế</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {{#each data.data}}
-                            <tr>
-                              <th scope="row">{{driverID}}</th>
-                              <td>{{lastName}} {{firstName}}</td>
-                              <td>{{birthDate}}</td>
-                              <td>{{phone}}</td>
-                              <td>{{address}}</td>
-                              <td>{{lat}}, {{Long}}</td>
-                              <td>
-                                <form method="post" action="/admin/choose__driver">
-                                  <input type="hidden" value="{{driverID}}" name="driverID" />
-                                  <button class="btn btn__submit" type="submit">Chọn</button>
-                                </form>
-                              </td>
-                            </tr>
-                          {{/each}}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              {{else}}
-                <p>chưa có dữ liệu</p>
-              {{/if}}
+              {{message}}
             </div>
           </div>
         </div>

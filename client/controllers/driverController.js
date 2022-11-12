@@ -3,15 +3,29 @@ const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
 
 const dashboard = (req, res, next)=>{
-    let data = localStorage.getItem('info-driver') ? JSON.parse(localStorage.getItem('info-driver')) : {};
-    let id = localStorage.getItem('id');
-    let showInfo = null;
-    if(data.driverId == id){
-        showInfo = data
+    let data = {
+        driverId :localStorage.getItem('id')
     }
-    res.render("driver/dashboard-driver.hbs", {
-        data: showInfo
-    });
+    let url = "http://localhost:8080/api/driver/get-info-driver";
+    let options = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('x-token')
+        },
+        body: JSON.stringify(data)
+    }
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => 
+        res.render("driver/dashboard-driver.hbs", {
+            data: data,
+            message: "123"
+        })
+    )
+    .catch(error => {
+        console.log(error);
+    })
 }
 const updateInfo = (req, res, next)=>{
     res.render("driver/update-info.hbs");
@@ -53,6 +67,8 @@ const postUpdateInfo = (req, res, next)=>{
         console.log(err);
     })
 }
+
+
 module.exports = {
     dashboard,
     updateInfo,

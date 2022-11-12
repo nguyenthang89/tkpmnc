@@ -73,37 +73,37 @@
                 <p class="text-success font-weight-bold">{{{ message }}}</p>
                 <form method="post" action="/admin/post-book-car">
                     <input type="hidden" name="idDriver" />
-                    <div class="flex flex-d g-2">
-                        <div class="form__group">
+                    <div class="row">
+                        <div class="form__group col-md-6 col-lg-4 mx-auto">
                             <input type="text" name="lastName" class="form-style"
                                 placeholder="Nhập họ khách hàng" id="lastName" autocomplete="off">
                             <i class="input-icon uil uil-at"></i>
                         </div>
-                        <div class="form__group">
+                        <div class="form__group col-md-6 col-lg-4 mx-auto">
                             <input type="text" name="firstName" class="form-style"
                                 placeholder="Nhập tên khách hàng" id="firstName" autocomplete="off">
                             <i class="input-icon uil uil-at"></i>
                         </div>
                     </div>
-                    <div class="flex flex-d g-2">
-                        <div class="form__group">
+                    <div class="row">
+                        <div class="form__group col-md-6 col-lg-4 mx-auto">
                             <input type="text" name="from" class="form-style"
                                 placeholder="Địa chỉ đi" id="from" autocomplete="off" required>
                             <i class="input-icon uil uil-at"></i>
                         </div>
-                        <div class="form__group">
+                        <div class="form__group col-md-6 col-lg-4 mx-auto">
                             <input type="text" name="to" class="form-style"
                                 placeholder="Địa chỉ đến" id="to" autocomplete="off" required>
                             <i class="input-icon uil uil-at"></i>
                         </div>
                     </div>
-                    <div class="flex flex-d g-2">
-                        <div class="form__group">
+                    <div class="row">
+                        <div class="form__group col-md-6 col-lg-4 mx-auto">
                             <input type="text" name="phone" class="form-style" minlength="10" maxlength="10"
                                 placeholder="Nhập điện thoại của bạn" id="phone" autocomplete="off" required />
                             <i class="input-icon uil uil-at"></i>
                         </div>
-                        <div class="form__group">
+                        <div class="form__group col-md-6 col-lg-4 mx-auto">
                             <select name="loaixe" class="form-style">
                               <option value="4">4 chỗ</option>
                               <option value="7">7 chỗ</option>
@@ -112,7 +112,7 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn__submit">Đặt xe</button>
+                    <button type="submit" class="btn btn__submit col-md-4 mx-auto">Đặt xe</button>
                 </form>
             </div>
 

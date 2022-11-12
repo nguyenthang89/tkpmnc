@@ -116,6 +116,7 @@ tbody, td, tfoot, th, thead, tr{
 .table-striped>tbody>tr:nth-of-type(odd)>*{
   color: var(--white-color);
 }
+
 @media screen and (max-width: 768px) {
   #main{
     flex-direction: column;
