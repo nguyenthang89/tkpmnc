@@ -73,12 +73,16 @@ export default class AuthService {
       }});
 
       if(!user){           
-        return res.status(404).send({message: "User Not Found."});
+        return res.status(404).send({
+          statusCode: 404,
+          message: "User Not Found."
+        });
       }
 
       let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);  
       if(!passwordIsValid) {
         return res.status(401).send({
+          statusCode: 401,
           token: null,
           message: "Invalid password."
         });
@@ -104,6 +108,7 @@ export default class AuthService {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
         res.status(200).send({
+          statusCode: 200,
           id: user.id,
           //driverId: driver.driverId,
           user: user.username,

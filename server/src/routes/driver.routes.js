@@ -8,7 +8,7 @@ import { verifyToken } from '../middleware/auth.middleware';
 router.post('/info-driver-upd', verifyToken, infoUpd);
 router.post('/lat-long-upd', verifyToken, latLongUpd);
 router.post('/top-nearby', verifyToken, topNearby);
-router.get('/get-info-driver', verifyToken, getInfoDriver);
+router.post('/get-info-driver', verifyToken, getInfoDriver);
 
 
 export default router;
