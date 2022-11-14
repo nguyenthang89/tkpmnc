@@ -43,15 +43,12 @@ export default class DriverService {
       },
       logging: console.log
       });
-
-      return 1;  
-   
+      return 1;     
     }catch(err){
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            message:"Oop! Something went wrong!"
-        })
+      res.status(500).json({
+          success: false,
+          message:"Oop! Something went wrong!"
+      });
     }
   }
 
