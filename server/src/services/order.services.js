@@ -16,7 +16,6 @@ export default class OrderService {
       destination: params.to,
       loai_xe: params.loai_xe,
       phone: params.phone,
-      cre_dt: new Date()
       //logging: console.log
     });   
     return 1;

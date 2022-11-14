@@ -85,13 +85,4 @@ export default class DriverService {
     return driver;     
   }  
 
-  static async sendMessage(driverId){
-    const driver = await Driver.findOne({
-      where: {
-        driverId: driverId,
-      },
-      logging: console.log
-    });
-    return driver;
-  }
 }
