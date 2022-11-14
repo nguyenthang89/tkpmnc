@@ -3,29 +3,35 @@ const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
 
 const dashboard = (req, res, next)=>{
-    let data = {
-        phone: localStorage.getItem('phone-customer')
-    }
-    let url = "http://localhost:8080/api/admin/get-top-5";
-    let options = {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('x-token')
-        },
-        body: JSON.stringify(data)
-    }
-    fetch(url, options)
-    .then(response => response.json())
-    .then(data => 
-        res.render("admin/dashboard-admin.hbs", {
-           topCall: data.data,
-           topAddress: data.arr
+    let phone = localStorage.getItem("phone-customer");
+    if(phone){
+        let data = {
+            phone: localStorage.getItem('phone-customer')
+        }
+        let url = "http://localhost:8080/api/admin/get-top-5";
+        let options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': localStorage.getItem('x-token')
+            },
+            body: JSON.stringify(data)
+        }
+        fetch(url, options)
+        .then(response => response.json())
+        .then(data => 
+            res.render("admin/dashboard-admin.hbs", {
+               topCall: data.data,
+               topAddress: data.arr
+            })
+        )
+        .catch(error => {
+            console.log(error);
         })
-    )
-    .catch(error => {
-        console.log(error);
-    })
+    }
+    else{
+        res.render("admin/dashboard-admin.hbs");
+    }
 }
 const coordinator = (req, res, next)=>{
     let data = JSON.parse(localStorage.getItem("customer")) ? JSON.parse(localStorage.getItem("customer")) : "";
