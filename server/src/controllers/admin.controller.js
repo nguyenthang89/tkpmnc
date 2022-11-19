@@ -12,11 +12,11 @@ const Op = Sequelize.Op;
 const router = Router();
 export async function getTop5ByCellPhone(req, res, next){   
   try{
-    const whereCondition = {};
-    whereCondition.phone = req.body.phone; 
+    // const whereCondition = {};
+    // whereCondition.phone = req.body.phone; 
 
-    const dataResAddress = await OrderService.getTop5Address(whereCondition);   
-    const dataResRecentCalled = await OrderService.getTop5RecentCalled(whereCondition);   
+    const dataResAddress = await OrderService.getTop5Address();   
+    const dataResRecentCalled = await OrderService.getTop5RecentCalled();   
     if(dataResAddress && dataResRecentCalled){
       return res.status(200).json({
         success: true,
