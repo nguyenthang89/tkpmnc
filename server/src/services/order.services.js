@@ -16,6 +16,7 @@ export default class OrderService {
       destination: params.to,
       loai_xe: params.loai_xe,
       phone: params.phone,
+      cre_dt: new Date()
       //logging: console.log
     });   
     return 1;
@@ -46,5 +47,17 @@ export default class OrderService {
       logging: console.log
     });
     return history;
+  }
+
+  static async getDriver(){
+    const customer = await Order.findOne({
+      attributes: ['customerId', 'phone', 'loai_xe', 'destination', 'driverId'],
+      order: [
+        ['cre_dt', 'DESC'],
+      ],
+      limit: 1,
+      logging: console.log
+    });
+    return customer
   }
 }

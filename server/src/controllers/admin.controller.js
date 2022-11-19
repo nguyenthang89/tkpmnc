@@ -84,3 +84,23 @@ export async function coordinate(req, res, next){
   }
 };
 
+export async function getDriver(req, res, next){
+  try{
+    const resData = await OrderService.getDriver();
+    if(resData){
+      return res.status(200).json({
+        success: true,
+        message: "Lấy 5 tài xế gần nhất thành công!",
+        statusCode: 200,
+        responseData: resData
+      })
+    }
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({
+        success: false,
+        message:"Something went wrong!"
+    })
+  }
+}
