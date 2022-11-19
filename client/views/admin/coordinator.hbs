@@ -90,14 +90,10 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {{#each data.data}}
+                          {{#each responseData}}
                             <tr>
                               <th scope="row">{{driverID}}</th>
-                              <td>{{lastName}} {{firstName}}</td>
-                              <td>{{birthDate}}</td>
                               <td>{{phone}}</td>
-                              <td>{{address}}</td>
-                              <td>{{lat}}, {{Long}}</td>
                               <td>
                                 <form method="post" action="/admin/choose__driver">
                                   <input type="hidden" value="{{driverID}}" name="driverID" />

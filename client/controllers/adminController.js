@@ -34,35 +34,20 @@ const dashboard = (req, res, next)=>{
     }
 }
 const coordinator = (req, res, next)=>{
-    let data = JSON.parse(localStorage.getItem("customer")) ? JSON.parse(localStorage.getItem("customer")) : "";
-    let url = "http://localhost:8080/api/driver/top-nearby";
+    let url = "http://localhost:8080/api/admin/get-driver";
     let options = {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem("x-token")
-        },
-        body: JSON.stringify(
-            {
-                lastName: data.lastName,
-                firstName: data.firstName,
-                from: data.from,
-                to: data.to,
-                lat: data.lat,
-                long: data.long,
-                phone: data.phone,
-                loai_xe: data.loai_xe
-            }
-        )
+            "Content-Type": 'application/json',
+            'x-access-token': localStorage.getItem('x-token')
+        }
     }
     fetch(url, options)
     .then(response => response.json())
-    .then(data => {
-        res.render("admin/coordinator.hbs", {
-            data: data
-        });
+    .then(data => res.render('admin/coordinator.hbs', {data: data}))
+    .catch(err => {
+        console.log(err);
     })
-    .catch(err => console.log(err));
 }
 const bookCar = (req, res, next)=>{
     res.render("admin/book-car.hbs");
