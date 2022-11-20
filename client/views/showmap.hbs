@@ -16,14 +16,11 @@
         <div class="main flex-d flex-c">
             <div class="main-top flex-c">
                 <h3>Hiển thị đường đi</h3>
+                <div class="test"></div>
             </div>
             <div class="main-bottom flex-c">
                 <div id="container">
                     <div id="map"></div>
-                    <div id="sidebar">
-                        <p>Tổng đường đi: <span id="total"></span></p>
-                        <div id="panel"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -33,72 +30,55 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
         <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyhFZp_7CrnYAbTN1yxDzt4kxLmZMmY8o&callback=initMap&v=weekly"
-      defer
-    ></script>
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG0r53JaAzCbXYHkvzSXkumHmfgHFe-lE&callback=initMap&v=weekly"
+            defer></script>
         <script>
+            let map;
+
             function initMap() {
-                const map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 4,
-                    center: { lat: -24.345, lng: 134.46 },
-                });
-                const directionsService = new google.maps.DirectionsService();
-                const directionsRenderer = new google.maps.DirectionsRenderer({
-                    draggable: true,
-                    map,
-                    panel: document.getElementById("panel"),
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: new google.maps.LatLng(10.991602703466613, 106.49172871763882),
+                    zoom: 16,
                 });
 
-                directionsRenderer.addListener("directions_changed", () => {
-                    const directions = directionsRenderer.getDirections();
-
-                    if (directions) {
-                        computeTotalDistance(directions);
-                    }
-                });
-                displayRoute(
-                    "12 Nguyễn Trãi, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh 700000, Việt Nam",
-                    "12 Nguyễn Xí, Phường 26, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam",
-                    directionsService,
-                    directionsRenderer
-                );
-            }
-
-            function displayRoute(origin, destination, service, display) {
-                service
-                    .route({
-                        origin: origin,
-                        destination: destination,
-                        waypoints: [
-                            { location: "12 Nguyễn Gia Trí, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh 700000, Việt Nam" }
-                        ],
-                        travelMode: google.maps.TravelMode.DRIVING,
-                        avoidTolls: true,
-                    })
-                    .then((result) => {
-                        display.setDirections(result);
-                    })
-                    .catch((e) => {
-                        alert("Could not display directions due to: " + e);
+                const iconBase =
+                    "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+                const icons = {
+                    parking: {
+                        icon: iconBase + "parking_lot_maps.png",
+                    },
+                    library: {
+                        icon: iconBase + "library_maps.png",
+                    },
+                    info: {
+                        icon: iconBase + "info-i_maps.png",
+                    },
+                };
+                let features = [
+                    [10.991602703466613, 106.49172871763882],
+                    [10.986463034482924, 106.4973935433721],
+                    [10.979975127804288, 106.50563328989325],
+                    [10.983682520508252, 106.51687711066691],
+                    [10.98595748843577, 106.53172582054357],
+                    [10.986294519230087, 106.55962079574539]
+                ]
+                for(let i = 0; i < features.length; i++){
+                    const marker = new google.maps.Marker({
+                        position: features[i],
+                        map: map,
                     });
-            }
-
-            function computeTotalDistance(result) {
-                let total = 0;
-                const myroute = result.routes[0];
-                if (!myroute) {
-                    return;
+                    marker.setPosition(new google.maps.LatLng(features[i][0], features[i][1]));
+                    (function(index){
+                        setTimeout(function(){
+                            marker.setMap(null);
+                        }, i * 5000)
+                    })(i)
                 }
-
-                for (let i = 0; i < myroute.legs.length; i++) {
-                    total += myroute.legs[i].distance.value;
-                }
-
-                total = total / 1000;
-                document.getElementById("total").innerHTML = total + " km";
+                
             }
-
+            
             window.initMap = initMap;
+
         </script>
 </body>
 
