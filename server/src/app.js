@@ -48,6 +48,7 @@ var admin = [];
 io.on("connection", (socket) => {
   console.log(socket.id, "connected"); // true
 
+  socket.emit("test", { message: " test"});
   
   //server lắng nghe tài xế nào join 
   socket.on('join', (data) => {
