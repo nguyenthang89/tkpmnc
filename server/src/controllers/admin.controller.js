@@ -84,13 +84,13 @@ export async function coordinate(req, res, next){
   }
 };
 
-export async function getDriver(req, res, next){
+export async function getNewOrder(req, res, next){
   try{
-    const resData = await OrderService.getDriver();
+    const resData = await OrderService.getNewOrder();
     if(resData){
       return res.status(200).json({
         success: true,
-        message: "Lấy 5 tài xế gần nhất thành công!",
+        message: "Lấy đơn hàng mới nhất thành công!",
         statusCode: 200,
         responseData: resData
       })

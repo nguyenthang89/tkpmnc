@@ -11,11 +11,13 @@ export default class OrderService {
   static async saveOrder(params){
     //console.log(params);
     await Order.create({
-      endLat: params.lat, 
-      endLong: params.long, 
       customerId: params.customerId,
       departure: params.from,
       destination: params.to,
+      startLat: params.startLat,
+      startLong: params.startLong,
+      endLat: params.endLat,
+      endLong: params.endLong,
       loai_xe: params.loai_xe,
       phone: params.phone,
       cre_dt: new Date()
@@ -74,9 +76,9 @@ export default class OrderService {
     return history;
   }
 
-  static async getDriver(){
+  static async getNewOrder(){
     const customer = await Order.findOne({
-      attributes: ['customerId', 'phone', 'loai_xe', 'destination', 'driverId'],
+      attributes: ['customerId', 'phone', 'loai_xe', 'departure', 'destination', 'driverId', 'startLat', 'startLong'],
       order: [
         ['cre_dt', 'DESC'],
       ],
