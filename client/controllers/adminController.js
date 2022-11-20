@@ -1,7 +1,11 @@
 const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
-
+const { io } = require("socket.io-client");
+const socket = io("http://localhost:8080");
+socket.on("test", (arg)=>{
+    console.log(arg);
+})
 const dashboard = (req, res, next)=>{
     let phone = localStorage.getItem("phone-customer");
     if(phone){
@@ -115,7 +119,7 @@ const postBookCar = async (req, res, next)=>{
     fetch(url, options)
     .then(response => response.json())
     .then(data => {
-        res.redirect(307, "/admin/book-car");
+        res.render("admin/book-car", {message: data.message});
     })
     .catch(err => {
         console.log(err);
