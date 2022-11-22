@@ -7,7 +7,7 @@ import { verifyToken } from '../middleware/auth.middleware';
 // Kiem tra dk login truoc
 router.post('/info-driver-upd', verifyToken, infoUpd);
 router.post('/lat-long-upd', verifyToken, latLongUpd);
-router.post('/top-nearby', verifyToken, topNearby);
+// router.post('/top-nearby', verifyToken, topNearby);
 router.post('/get-info-driver', verifyToken, getInfoDriver);
 
 

@@ -52,24 +52,30 @@ export default class DriverService {
     }
   }
 
-  static async topNearby(endLat, endLong) {   
-    // let mySQL = `
-    //   SELECT d.*, lat, d.Long, SQRT(
-    //     POW(69.1 * (d.Long - ${endLat}), 2) +
-    //     POW(69.1 * (${endLong} - d.Long) * COS(lat / 57.3), 2)) AS distance
-    //   FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 5
-    // `;
-
+  static async topNearby(obj) {   
     let mySQL = `
-      SELECT * FROM DRIVERS LIMIT 5
-    `;
-    const drivers = await sequelize.query(
-      mySQL, 
+    SELECT driverID, SQRT(
+        POW(69.1 * (lat - ${obj.lat}), 2) +
+        POW(69.1 * (${obj.lng} - d.Long) * COS(lat / 57.3), 2)) AS distance
+    FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 1;
+  `;
+
+  const rs = await sequelize.query(
+    mySQL, 
     { type: QueryTypes.SELECT,
-      logging: console.log,
+      //logging: console.log,
     });
 
-    return drivers;   
+    console.log(rs, "rsss");
+    let result;
+    if(rs.length > 0){
+      result = rs[0].driverID;
+    }else{
+      result = 0;
+    }
+
+    
+    return result; 
   }
 
   static async getInfoDriver(driverId) {   

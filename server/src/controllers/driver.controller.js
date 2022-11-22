@@ -74,64 +74,16 @@ export async function latLongUpd(req, res, next){
   }
 }
 
-export async function topNearby(req, res, next){   
-  try{
-    //const id = req.body.driverId;
-    // save order before get top 6
-    // await Orders.save
-    const inputs = req.body;
+export async function topNearby(params){    
+    const inputs = params;
     const obj = {};
     const id = {};
     for (var key of Object.keys(inputs)) {
       obj[key] = `${inputs[key]}`;      
     }
 
-    // let obj = {
-    //   startLat: req.body.lat,
-    //   startLong: req.body.long,
-    // };
-    //const customerId = await User.findOne
-    // Kiem tra xem co phai la khach vang lai ko
-    //let customerId = "";
-
-    let cus = await Customer.findOne({
-      attributes: ['customerId'],
-      where:{
-        phone: req.body.phone,
-        lastName: req.body.lastName,
-        firstName: req.body.firstName,
-      },
-      logging: console.log,
-    });    
-    
-    if(cus){
-      obj.customerId = cus.customerId;
-    }    
-
-    await OrderService.saveOrder(obj);
-    // const dataRes = await OrderService.getTop5(obj.lat, obj.long);   
-    // if(dataRes){
-    //   return res.status(200).json({
-    //     success: true,
-    //     message:"Found " +dataRes.length + " drivers in 2 km",
-    //     data: dataRes
-    //   });
-    // }    
-    const dataRes = await DriverService.topNearby(obj.lat, obj.long);   
-    if(dataRes){
-      return res.status(200).json({
-        success: true,
-        message:"Found " +dataRes.length + " drivers in 2 km",
-        data: dataRes
-      });
-    }    
-  }catch(err){
-      console.log(err);
-      res.status(500).json({
-          success: false,
-          message:"Something went wrong!"
-      })
-  }
+    console.log(obj, "objectt");
+    DriverService.topNearby(obj);  
 }
 
 

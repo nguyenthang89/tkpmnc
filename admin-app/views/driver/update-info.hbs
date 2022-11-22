@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cập nhật thông tin tài xế</title>
+  <link rel="stylesheet" href="/css/dashboard_admin.css">
+</head>
+
+<body>
+  <!-- App -->
+  <div class="app">
+    <input class="mobile-input" type="checkbox" id="mobileButton" />
+
+    <div class="side flex">
+      <div class="mobile-btn">
+        <label class="flex" for="mobileButton">
+          <ion-icon name="grid-outline"></ion-icon>
+        </label>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar flex-c flex-c">
+        <div class="sidebar-logo flex">
+          <span>Taxi</span>
+        </div>
+
+        <div class="sidebar-center flex flex-c">
+          <form method="post" action="/driver">
+            <button class="icon flex" type="submit"><ion-icon name="home-outline"></ion-icon></button>
+          </form>
+          <form method="post" action="/driver/update-info">
+            <button class="icon flex" type="submit"><ion-icon name="shield-checkmark-outline"></ion-icon></button>
+          </form>
+          <form method="get" action="/">
+            <button class="icon flex" type="submit"><ion-icon name="exit-outline"></ion-icon></button>
+          </form>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="main flex-d flex-c">
+      <div class="main-top flex-d">
+        <h2>Driver Dashboard</h2>
+
+        <div class="main-top-left flex">
+          <div class="search flex">
+            <ion-icon name="search-outline" class="icon-btn"></ion-icon>
+            <input type="text" placeholder="Search" />
+          </div>
+
+          <div class="icon flex">
+            <ion-icon name="notifications-outline"></ion-icon>
+          </div>
+
+          <div class="user flex">
+            <ion-icon name="person-circle-outline" class="icon-btn"></ion-icon>
+            <h4>{{{ username }}}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="main-bottom flex-d">
+        <div class="main-bottom-left flex-c flex-c">
+          <div class="stats flex-d">
+            <div class="top-selling">
+              <p class="text-success text-center font-weight-bold">{{{ message }}}</p>
+                <form method="post" action="/driver/post-update-info">
+                    <div class="row">
+                        <div class="form__group col-md-6 col-lg-4">
+                            <input type="text" name="lastName" class="form-style"
+                                placeholder="Vui lòng nhập họ" id="lastName" autocomplete="off">
+                            <i class="input-icon uil uil-at"></i>
+                        </div>
+                        <div class="form__group col-md-6 col-lg-4">
+                            <input type="text" name="firstName" class="form-style"
+                                placeholder="Vui lòng nhập tên" id="firstName" autocomplete="off">
+                            <i class="input-icon uil uil-at"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form__group col-md-6 col-lg-4">
+                            <input type="date" name="birthDate" class="form-style"
+                                placeholder="Ngày sinh" id="birthDate" autocomplete="off">
+                            <i class="input-icon uil uil-at"></i>
+                        </div>
+                        <div class="form__group col-md-6 col-lg-4">
+                            <input type="text" name="address" class="form-style"
+                                placeholder="Địa chỉ của bạn" id="address" autocomplete="off">
+                            <i class="input-icon uil uil-at"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form__group col-md-6 col-lg-4">
+                            <input type="text" name="phone" class="form-style"
+                                placeholder="Nhập điện thoại của bạn" id="phone" autocomplete="off"  minlength="10" maxlength="10">
+                            <i class="input-icon uil uil-at"></i>
+                        </div>
+                        <div class="form__group col-md-6 col-lg-4">
+                          <button type="submit" class="btn btn__submit">Cập nhật</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Main Content -->
+  </div>
+  <!-- End App -->
+
+  <!-- Ion Icons Js -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+</body>
+
+</html>

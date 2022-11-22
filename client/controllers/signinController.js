@@ -2,6 +2,14 @@ const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
 
+const { io } = require("socket.io-client");
+const socket = io("http://localhost:8080");
+
+socket.on("found", (args) => {
+    console.log(args);
+});
+
+
 // Sign In
 const signin = (req, res, next)=>{
     res.render("signin.hbs");
@@ -14,6 +22,7 @@ async function postSignin(req, res, next){
         "password": password
     });
 
+    
     let url = 'http://localhost:8080/api/auth/signin';
     let options = {
         method: 'POST',
@@ -29,11 +38,13 @@ async function postSignin(req, res, next){
             let role = data.roles[0];
             localStorage.setItem('x-token', data.token);
             localStorage.setItem('id', data.id);
+            
             switch(role){
                 case "ROLE_ADMIN":
                     res.redirect(307, "/admin");
                     break;
                 case "ROLE_DRIVER":
+                   socket.emit("join", data.id);
                     res.redirect(307, "/driver");
                     break;
                 default:

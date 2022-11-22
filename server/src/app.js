@@ -9,7 +9,6 @@ import DriverRoutes from './routes/driver.routes';
 import AdminRoutes from './routes/admin.routes';
 import Order from './models/orders';
 import Customer from './models/customers';
-
 // import { addUser, getUser, getUsersInRoom, removeUser } from './utils/User';
 import cors from 'cors';
 import { createServer } from 'http';
@@ -22,7 +21,7 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, { 
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:2000"],
+    origin: ["http://localhost:1000", "http://localhost:2000", "http://localhost:3000"],
     methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
 
     allowedHeaders: ["x-access-token"],
@@ -43,50 +42,33 @@ app.use(bodyParser.json({limit: '100mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb','extended': 'true'})); 
 app.use(bodyParser.json({type: 'application/vnd.api+json'})); 
 
-var arr = [];
-var admin = [];
+var userConnected = {};
 io.on("connection", (socket) => {
-  console.log(socket.id, "connected"); // true
-
-  socket.emit("test", { message: " test"});
-  
+  console.log(socket.id);
   //server lắng nghe tài xế nào join 
   socket.on('join', (data) => {
-        
-    io.sockets.emit("resposeFromServer", { message: " Đăng kí nhận thông báo thành công"}); //Subscribe successfully
-    //io.sockets.to().emit("pri", "private message");
-    // var clientInfo = new Object();            
-    // clientInfo.clientId     = socket.id;
-    // clients.push(clientInfo);
-    // console.log(clientInfo[1]); // Lm0sw7-EvGXOX4myAAAC
-
-
+    userConnected[data] = socket.id;       
   });
-  
-  
-  //io.to(socket.id).emit('pri', `your secret code is `);
-  //console.log(socket.id);
-  socket.on("lat-long-frmClient", async(data) => {
-    // console.log(arr[1]); // undefined
 
-    //let result = await DriverService.topNearby(data);
-    // io.sockets.to(arr[1]).emit("pri", "Private message "); 
-    console.log(socket.id, "adminnn");
-    // console.log(result.toString());
-    // if(result){      
-      
-    //   //io.sockets.to(socket.id).emit("messageForAdmin", { message: "Mảng đang rỗng "});
-    //   console.log(socket.id, "admin socket it 111");
-    //   io.sockets.to(socket.id).emit("messageForAdmin", "private message");
-    //   io.to(socket.id).emit("messageForAdmin", "private message");
-    // }else{
-    //   io.to(socket.id).emit("messageForAdmin", { message: " Không có tài xế "});
-    //   console.log(socket.id, "admin socket it 222");
-    // }
-   
+  // Nhân viên điều phối sẽ gửi lat, long xuống
+  socket.on("TimTaiXe", async(data) => {
+    // Lấy taiXe_id, find trong userCOnnnected.
+
+    let taiXe = await DriverService.topNearby(data);       
+    console.log(taiXe);
+    if(taiXe !== '0' && taiXe !== 'undefined' && userConnected[taiXe]){ 
+      console.log(userConnected[taiXe], "Socket id của tai xe ");   
+      io.sockets.to(userConnected[taiXe]).emit("found", "Tìm thấy tài xế");
+    }else{
+      console.log("zo day, Socket id này là của sk ' socket.on '")
+      io.sockets.to(socket.id).emit("not-found", "Không tìm thấy tài xế!!!");
+    }
   });
-  
-
+  socket.on("disconnect", () => {    
+    console.log(userConnected[21], socket.id);
+    // console.log(socket.id); // false
+  });
+ 
 
 })
 
