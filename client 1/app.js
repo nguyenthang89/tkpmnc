@@ -6,7 +6,17 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
-
+const {io} = require("socket.io-client");
+const socket = io("http://localhost:8080");
+socket.on("connect", ()=>{
+    console.log(socket.id)
+})
+socket.on("found", arg => {
+    console.log(arg)
+});
+socket.on("not-found", arg =>{
+    console.log(arg);
+})
 // Views
 app.engine('.hbs', exphbs.engine({ extname: '.hbs', defaultLayout: "main"}));
 app.set('view engine', 'hbs');

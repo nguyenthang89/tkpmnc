@@ -1,7 +1,20 @@
 const fetch = require('node-fetch');
+require('dotenv').config();
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
+const {io} = require("socket.io-client");
+const socket = io("http://localhost:8080");
+socket.on("connect", ()=>{
+    console.log(socket.id)
+})
+socket.on("found", arg => {
+    console.log(arg)
+});
+socket.on("not-found", arg =>{
+    console.log(arg);
+})
 
+let googleApi = process.env.GOOGLE_MAPS_API_KEY;
 const dashboard = (req, res, next)=>{
     let phone = localStorage.getItem("phone-customer");
     if(phone){
@@ -76,7 +89,7 @@ const bookCar = (req, res, next)=>{
     res.render("admin/book-car.hbs");
 }
 const getLatLong = async (req, res, next)=>{
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyBde2G9TITk9v9V_hk-YZVy0HoCCEzVZGw`;
+    let url = await `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=${googleApi}`;
     let responseData = await fetch(url).then(response => response.json());
     return responseData.results[0].geometry.location;
 }

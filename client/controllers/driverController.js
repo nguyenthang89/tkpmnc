@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
+require('dotenv').config();
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
-
+let googleApi = process.env.GOOGLE_MAPS_API_KEY;
 const dashboard = (req, res, next)=>{
     let data = {
         driverId :localStorage.getItem('id')
@@ -32,7 +33,7 @@ const updateInfo = (req, res, next)=>{
 }
 
 const getLatLong = async (req, res, next)=>{
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyBde2G9TITk9v9V_hk-YZVy0HoCCEzVZGw`;
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=${googleApi}`;
     let responseData = await fetch(url).then(response => response.json());
     return responseData.results[0].geometry.location;
 }
