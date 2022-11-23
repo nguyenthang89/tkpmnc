@@ -43,7 +43,6 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
 var userConnected = {};
 io.on("connection", (socket) => {
-<<<<<<< HEAD
   
   //server lắng nghe tài xế nào join 
   socket.on('join', (userId) => {
@@ -74,28 +73,6 @@ io.on("connection", (socket) => {
     }
   });
   
-=======
-  console.log(socket.id);
-  //server lắng nghe tài xế nào join 
-  socket.on('join', (data) => {
-    userConnected[data] = socket.id;       
-  });
-
-  // Nhân viên điều phối sẽ gửi lat, long xuống
-  socket.on("TimTaiXe", async(data) => {
-    // Lấy taiXe_id, find trong userCOnnnected.
-
-    let taiXe = await DriverService.topNearby(data);       
-    console.log(taiXe);
-    if(taiXe !== '0' && taiXe !== 'undefined' && userConnected[taiXe]){ 
-      console.log(userConnected[taiXe], "Socket id của tai xe ");   
-      io.sockets.to(userConnected[taiXe]).emit("found", "Tìm thấy tài xế");
-    }else{
-      console.log("zo day, Socket id này là của sk ' socket.on '")
-      io.sockets.to(socket.id).emit("not-found", "Không tìm thấy tài xế!!!");
-    }
-  });
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
   socket.on("disconnect", () => {    
     console.log(userConnected[21], socket.id);
     // console.log(socket.id); // false

@@ -32,11 +32,7 @@ const updateInfo = (req, res, next)=>{
 }
 
 const getLatLong = async (req, res, next)=>{
-<<<<<<< HEAD
     let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyByBPtCdWW9S-HituC1L5NNoxUd-FDmx-0`;
-=======
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyBde2G9TITk9v9V_hk-YZVy0HoCCEzVZGw`;
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
     let responseData = await fetch(url).then(response => response.json());
     return responseData.results[0].geometry.location;
 }

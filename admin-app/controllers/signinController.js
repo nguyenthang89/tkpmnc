@@ -2,7 +2,6 @@ const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
 
-<<<<<<< HEAD
 const { io } = require("socket.io-client");
 const socket = io("http://localhost:8080");
 
@@ -11,8 +10,6 @@ socket.on("found", (args) => {
 });
 
 
-=======
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
 // Sign In
 const signin = (req, res, next)=>{
     res.render("signin.hbs");
@@ -24,10 +21,6 @@ async function postSignin(req, res, next){
         "username": username,
         "password": password
     });
-<<<<<<< HEAD
-=======
-
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
     
     let url = 'http://localhost:8080/api/auth/signin';
     let options = {
@@ -44,7 +37,6 @@ async function postSignin(req, res, next){
             let role = data.roles[0];
             localStorage.setItem('x-token', data.token);
             localStorage.setItem('id', data.id);
-<<<<<<< HEAD
             socket.emit("join", data.id);
             switch(role){
                 
@@ -52,14 +44,6 @@ async function postSignin(req, res, next){
                     res.redirect(307, "/admin");
                     break;
                 case "ROLE_DRIVER":                   
-=======
-            
-            switch(role){
-                case "ROLE_ADMIN":
-                    res.redirect(307, "/admin");
-                    break;
-                case "ROLE_DRIVER":
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
                     res.redirect(307, "/driver");
                     break;
                 default:
