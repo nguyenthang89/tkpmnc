@@ -15,7 +15,9 @@ import { createServer } from 'http';
 import { Server } from 'socket.io'; //replaces (import socketIo from 'socket.io')
 import router from './routes/user.routes';
 import DriverService from './services/driver.services';
+import SMSService from './utils/SMSService';
 const { topNearby } = require('./controllers/driver.controller');
+
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, { 
@@ -70,11 +72,12 @@ io.on("connection", (socket) => {
     }else{
       let msg = {id: taiXe, msg: "Khong tìm thấy tài xế", }
       io.sockets.to(socket.id).emit("not-found", msg );
+      SMSService.sendSMS('Bạn ơi, Không tìm thấy tài xế'); //Thông báo cho KH bằng SMS
     }
   });
   
   socket.on("disconnect", () => {    
-    console.log(userConnected[21], socket.id);
+    console.log(socket.id);
     // console.log(socket.id); // false
   });
  

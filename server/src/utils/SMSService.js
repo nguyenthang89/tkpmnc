@@ -1,5 +1,5 @@
 const sid = "AC888225993b7238cb5a9f58d02d206c02";
-const auth_token = "fe3e73efed2b93cdbafecb8241cf5d73";
+const auth_token = "7821282e5db78aa63205c5580887bae4";
 
 const twilio = require("twilio")(sid, auth_token);
 export default class SMSService {
