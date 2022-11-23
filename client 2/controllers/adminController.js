@@ -76,7 +76,7 @@ const bookCar = (req, res, next)=>{
     res.render("admin/book-car.hbs");
 }
 const getLatLong = async (req, res, next)=>{
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyBde2G9TITk9v9V_hk-YZVy0HoCCEzVZGw`;
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyAZGShnnbW-ECiDuWQqsn0GJMAiVnvVSa0`;
     let responseData = await fetch(url).then(response => response.json());
     return responseData.results[0].geometry.location;
 }
