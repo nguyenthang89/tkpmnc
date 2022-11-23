@@ -16,7 +16,6 @@ import { Server } from 'socket.io'; //replaces (import socketIo from 'socket.io'
 import router from './routes/user.routes';
 import DriverService from './services/driver.services';
 const { topNearby } = require('./controllers/driver.controller');
-
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, { 
@@ -44,6 +43,38 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
 var userConnected = {};
 io.on("connection", (socket) => {
+<<<<<<< HEAD
+  
+  //server lắng nghe tài xế nào join 
+  socket.on('join', (userId) => {
+    userConnected[userId] = socket.id;       
+    socket.join(userId); // join room, lấy user id làm room vì nó unique    
+  });
+  
+  // Nhân viên điều phối sẽ gửi lat, long, phone xuống
+  socket.on("TimTaiXe", async(data) => {
+    // Lấy taiXe_id, find trong userCOnnnected.
+    console.log();
+    let taiXe = await DriverService.topNearby(data);        
+  
+    if(taiXe.length > '0' && taiXe !== 'undefined'){ 
+      //console.log(userConnected[taiXe], "Socket id của tai xe ");   
+      //private message theo room      
+      //io.to(taiXe).emit("found", msg);
+      // SendSMS();
+      for (let i = 0; i <= taiXe.length; i++) {
+        let msg = { id: taiXe[i], sock: socket.id, phone: data.phone };
+        io.to(taiXe[i]).emit("found", msg);
+      }      
+      // emit theo socket id
+      //io.sockets.to(userConnected[taiXe]).emit("found", "Tìm thấy tài xế");
+    }else{
+      let msg = {id: taiXe, msg: "Khong tìm thấy tài xế", }
+      io.sockets.to(socket.id).emit("not-found", msg );
+    }
+  });
+  
+=======
   console.log(socket.id);
   //server lắng nghe tài xế nào join 
   socket.on('join', (data) => {
@@ -64,6 +95,7 @@ io.on("connection", (socket) => {
       io.sockets.to(socket.id).emit("not-found", "Không tìm thấy tài xế!!!");
     }
   });
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
   socket.on("disconnect", () => {    
     console.log(userConnected[21], socket.id);
     // console.log(socket.id); // false

@@ -21,7 +21,10 @@ async function postSignin(req, res, next){
         "username": username,
         "password": password
     });
+<<<<<<< HEAD
+=======
 
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
     
     let url = 'http://localhost:8080/api/auth/signin';
     let options = {
@@ -38,13 +41,22 @@ async function postSignin(req, res, next){
             let role = data.roles[0];
             localStorage.setItem('x-token', data.token);
             localStorage.setItem('id', data.id);
+<<<<<<< HEAD
+            socket.emit("join", data.id);
+=======
             
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
             switch(role){
+                
                 case "ROLE_ADMIN":
                     res.redirect(307, "/admin");
                     break;
+<<<<<<< HEAD
+                case "ROLE_DRIVER":                   
+=======
                 case "ROLE_DRIVER":
                    socket.emit("join", data.id);
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
                     res.redirect(307, "/driver");
                     break;
                 default:

@@ -37,7 +37,7 @@ export default class OrderService {
     const history = await sequelize.query(
       mySQL, 
       { type: QueryTypes.SELECT,
-        logging: console.log,
+        // logging: console.log,
       });
 
     // const history = await Order.findAll({
@@ -71,7 +71,7 @@ export default class OrderService {
     const history = await sequelize.query(
       mySQL, 
       { type: QueryTypes.SELECT,
-        logging: console.log,
+        //logging: console.log,
       });
     return history;
   }
@@ -83,7 +83,7 @@ export default class OrderService {
         ['cre_dt', 'DESC'],
       ],
       limit: 1,
-      logging: console.log
+      //logging: console.log
     });
     return customer
   }

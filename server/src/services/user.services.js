@@ -10,7 +10,7 @@ export default class UserSerice {
       where:{
         id: id,
       },
-      logging: console.log,
+      //logging: console.log,
     });    
     return getData;   
   }

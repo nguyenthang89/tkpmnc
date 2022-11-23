@@ -1,6 +1,9 @@
 const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
+<<<<<<< HEAD
+=======
 const { Socket } = require('socket.io-client');
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
 localStorage = new LocalStorage('./scratch');
 const { io } = require("socket.io-client");
 const socket = io("http://localhost:8080");
@@ -8,7 +11,10 @@ const socket = io("http://localhost:8080");
 socket.on("not-found", (args) => {
     console.log(args);
 });
+<<<<<<< HEAD
+=======
 
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
 const dashboard = (req, res, next)=>{
     let phone = localStorage.getItem("phone-customer");
     if(phone){
@@ -83,7 +89,15 @@ const bookCar = (req, res, next)=>{
     res.render("admin/book-car.hbs");
 }
 const getLatLong = async (req, res, next)=>{
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyAZGShnnbW-ECiDuWQqsn0GJMAiVnvVSa0`;
+<<<<<<< HEAD
+<<<<<<< HEAD
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyByBPtCdWW9S-HituC1L5NNoxUd-FDmx-0`;
+=======
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyBde2G9TITk9v9V_hk-YZVy0HoCCEzVZGw`;
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
+=======
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyBde2G9TITk9v9V_hk-YZVy0HoCCEzVZGw`;
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
     let responseData = await fetch(url).then(response => response.json());
     return responseData.results[0].geometry.location;
 }
@@ -110,7 +124,16 @@ const postBookCar = async (req, res, next)=>{
         loai_xe: loai_xe
     });
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    data = { lat: latLngForm.lat, long: latLngForm.lng, phone: phone, from: from, to: to};
+    socket.emit("TimTaiXe", data);
+=======
     socket.emit("TimTaiXe", latLngForm);
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
+=======
+    socket.emit("TimTaiXe", latLngForm);
+>>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
     let url = 'http://localhost:8080/api/admin/coordinate';
     let options = {
         method: "POST",

@@ -58,7 +58,7 @@ export async function coordinate(req, res, next){
         lastName: req.body.lastName,
         firstName: req.body.firstName,
       },
-      logging: console.log,
+      //logging: console.log,
     });    
     
     // Kiem tra xem co phai la khach vang lai ko
