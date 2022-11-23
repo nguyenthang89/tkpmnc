@@ -52,68 +52,27 @@ export default class DriverService {
     }
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   static async topNearby(obj) {  
     console.log(obj) ;
     let mySQL = `SELECT  driverID
     FROM (SELECT driverID, SQRT(
         POW(69.1 * (lat - ${obj.lat}), 2) +
         POW(69.1 * (${obj.long} - d.Long) * COS(lat / 57.3), 2)) AS distance
-    FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 5 ) as Foo;
-=======
-=======
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
-  static async topNearby(obj) {   
-    let mySQL = `
-    SELECT driverID, SQRT(
-        POW(69.1 * (lat - ${obj.lat}), 2) +
-        POW(69.1 * (${obj.lng} - d.Long) * COS(lat / 57.3), 2)) AS distance
-    FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 1;
-<<<<<<< HEAD
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
-=======
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
+    FROM drivers d HAVING distance < 2 ORDER BY distance LIMIT 5 ) as Foo
   `;
 
   const rs = await sequelize.query(
     mySQL, 
     { type: QueryTypes.SELECT,
       //logging: console.log,
-<<<<<<< HEAD
     });
 
-<<<<<<< HEAD
     let result = [];
-
+    
     rs.forEach((element, index, array) => {
       result.push(element.driverID);
-=======
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
-    });
-=======
-    console.log(rs, "rsss");
-    let result;
-    if(rs.length > 0){
-      result = rs[0].driverID;
-    }else{
-      result = 0;
-    }
+    });   
 
-<<<<<<< HEAD
-    
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
-=======
-    console.log(rs, "rsss");
-    let result;
-    if(rs.length > 0){
-      result = rs[0].driverID;
-    }else{
-      result = 0;
-    }
-
-    
->>>>>>> c095854925a314c87064e6ce5e957a6cfd9820dc
     return result; 
   }
 
