@@ -1,10 +1,11 @@
 const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
-
-const dashboard = (req, res, next)=>{
+require("dotenv").config();
+let googleApi = process.env.GOOGLE_MAPS_API_KEY;
+const dashboard = (req, res, next) => {
     let data = {
-        driverId :localStorage.getItem('id')
+        driverId: localStorage.getItem('id')
     }
     let url = "http://localhost:8080/api/driver/get-info-driver";
     let options = {
@@ -16,29 +17,37 @@ const dashboard = (req, res, next)=>{
         body: JSON.stringify(data)
     }
     fetch(url, options)
-    .then(response => response.json())
-    .then(data => 
-        res.render("driver/dashboard-driver.hbs", {
-            data: data,
-            message: "123"
+        .then(response => response.json())
+        .then(data =>
+            res.render("driver/dashboard-driver.hbs", {
+                data: data,
+                message: "123"
+            })
+        )
+        .catch(error => {
+            console.log(error);
         })
-    )
-    .catch(error => {
-        console.log(error);
-    })
 }
-const updateInfo = (req, res, next)=>{
+const updateInfo = (req, res, next) => {
     res.render("driver/update-info.hbs");
 }
 
-const getLatLong = async (req, res, next)=>{
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyByBPtCdWW9S-HituC1L5NNoxUd-FDmx-0`;
+const getLatLong = async (req, res, next) => {
+    let url = await `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=${googleApi}`;
     let responseData = await fetch(url).then(response => response.json());
-    return responseData.results[0].geometry.location;
+    if (responseData.status == "OK") {
+        return responseData.results[0].geometry.location;
+    }
+    else {
+        return {
+            lat: "10.802029",
+            lng: "106.649307"
+        }
+    }
 }
 
-const postUpdateInfo = async(req, res, next)=>{
-    try{
+const postUpdateInfo = async (req, res, next) => {
+    try {
         let driverId = localStorage.getItem('id');
         let lastName = req.body.lastName;
         let firstName = req.body.firstName;
@@ -68,19 +77,19 @@ const postUpdateInfo = async(req, res, next)=>{
             body: dataJson
         }
         fetch(url, options)
-        .then(response => response.json())
-        .then(data => {
-            localStorage.setItem('info-driver', dataJson);
-            res.render('driver/update-info.hbs', {message: data.message});
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('info-driver', dataJson);
+                res.render('driver/update-info.hbs', { message: data.message });
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
-    
+
 }
 
 

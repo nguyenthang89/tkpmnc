@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
-
+require("dotenv").config();
+let googleApi = process.env.GOOGLE_MAPS_API_KEY;
 const { io } = require("socket.io-client");
 const socket = io("http://localhost:8080");
 
@@ -9,9 +10,9 @@ socket.on("not-found", (args) => {
     console.log(args);
 });
 
-const dashboard = (req, res, next)=>{
+const dashboard = (req, res, next) => {
     let phone = localStorage.getItem("phone-customer");
-    if(phone){
+    if (phone) {
         let data = {
             phone: localStorage.getItem('phone-customer')
         }
@@ -25,22 +26,22 @@ const dashboard = (req, res, next)=>{
             body: JSON.stringify(data)
         }
         fetch(url, options)
-        .then(response => response.json())
-        .then(data => 
-            res.render("admin/dashboard-admin.hbs", {
-               topCall: data.data,
-               topAddress: data.arr
+            .then(response => response.json())
+            .then(data =>
+                res.render("admin/dashboard-admin.hbs", {
+                    topCall: data.data,
+                    topAddress: data.arr
+                })
+            )
+            .catch(error => {
+                console.log(error);
             })
-        )
-        .catch(error => {
-            console.log(error);
-        })
     }
-    else{
+    else {
         res.render("admin/dashboard-admin.hbs");
     }
 }
-const getTop5Driver = async (req, res, next)=>{
+const getTop5Driver = async (req, res, next) => {
     let url = "http://localhost:8080/api/admin/get-new-order";
     let options = {
         method: "POST",
@@ -51,9 +52,9 @@ const getTop5Driver = async (req, res, next)=>{
     }
     let data = await fetch(url, options).then(response => response.json());
     return data.responseData;
-    
+
 }
-const coordinator = async (req, res, next)=>{
+const coordinator = async (req, res, next) => {
     let dataCustomer = await getTop5Driver();
     let data = {
         lastName: dataCustomer.lastName,
@@ -75,19 +76,27 @@ const coordinator = async (req, res, next)=>{
         body: JSON.stringify(data)
     }
     fetch(url, options)
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
 }
-const bookCar = (req, res, next)=>{
+const bookCar = (req, res, next) => {
     res.render("admin/book-car.hbs");
 }
-const getLatLong = async (req, res, next)=>{
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyByBPtCdWW9S-HituC1L5NNoxUd-FDmx-0`;
+const getLatLong = async (req, res, next) => {
+    let url = await `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=${googleApi}`;
     let responseData = await fetch(url).then(response => response.json());
-    return responseData.results[0].geometry.location;
+    if (responseData.status == "OK") {
+        return responseData.results[0].geometry.location;
+    }
+    else {
+        return {
+            lat: "10.802029",
+            lng: "106.649307"
+        }
+    }
 }
-const postBookCar = async (req, res, next)=>{
+const postBookCar = async (req, res, next) => {
     let lastName = req.body.lastName;
     let firstName = req.body.firstName;
     let from = req.body.from;
@@ -110,7 +119,7 @@ const postBookCar = async (req, res, next)=>{
         loai_xe: loai_xe
     });
 
-    data = { lat: latLngForm.lat, long: latLngForm.lng, phone: phone, from: from, to: to};
+    data = { lat: latLngForm.lat, long: latLngForm.lng, phone: phone, from: from, to: to };
     socket.emit("TimTaiXe", data);
 
     let url = 'http://localhost:8080/api/admin/coordinate';
@@ -123,13 +132,13 @@ const postBookCar = async (req, res, next)=>{
         body: jsonDataBookCar,
     }
     fetch(url, options)
-    .then(response => response.json())
-    .then(data => {
-        res.render("admin/book-car", {message: data.message});
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .then(response => response.json())
+        .then(data => {
+            res.render("admin/book-car", { message: data.message });
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
 module.exports = {
