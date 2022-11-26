@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
 const { LocalStorage } = require("node-localstorage");
 localStorage = new LocalStorage('./scratch');
-
+require("dotenv").config();
+let googleApi = process.env.GOOGLE_MAPS_API_KEY;
 const { io } = require("socket.io-client");
 const socket = io("http://localhost:8080");
 
@@ -83,9 +84,17 @@ const bookCar = (req, res, next)=>{
     res.render("admin/book-car.hbs");
 }
 const getLatLong = async (req, res, next)=>{
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=AIzaSyByBPtCdWW9S-HituC1L5NNoxUd-FDmx-0`;
+    let url = await `https://maps.googleapis.com/maps/api/geocode/json?address=${req}&key=${googleApi}`;
     let responseData = await fetch(url).then(response => response.json());
-    return responseData.results[0].geometry.location;
+    if (responseData.status == "OK") {
+        return responseData.results[0].geometry.location;
+    }
+    else {
+        return {
+            lat: "10.802029",
+            lng: "106.649307"
+        }
+    }
 }
 const postBookCar = async (req, res, next)=>{
     let lastName = req.body.lastName;
